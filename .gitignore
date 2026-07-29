@@ -1,0 +1,20 @@
+# Raw trajectory data - large, not tracked (data lives on shared Google Drive)
+*.xtc
+*.trr
+*.cpt
+*.tpr
+*.gro
+*.top
+*.itp
+*.tar
+
+# Leftover early draft scripts, superseded by plot_<ALLELE>.py
+51.py
+ee.py
+ejef.py
+
+# Unrelated file, not part of this project
+CYP3A4_Genetic_Variant_Metabolism.png
+
+# OS clutter
+.DS_Store
