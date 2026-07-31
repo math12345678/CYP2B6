@@ -6,7 +6,15 @@ in the CYP3A4 paper's 3-SD framework -- this is the best available proxy).
 
 A mutant's effect is only treated as "real" if:
   (a) both mutant replicates agree in the direction of the delta vs. WT, AND
-  (b) the replicate-averaged delta exceeds the WT rep1-vs-rep2 noise floor.
+  (b) the replicate-averaged delta exceeds the WT rep1-vs-rep2 noise floor, AND
+  (c) the replicate-averaged delta exceeds a minimum absolute effect size
+      (MIN_EFFECT_NM below). Criterion (c) was added after an initial version
+      of this script flagged I391N's RMSF as "robust" purely because its own
+      noise floor happened to be unusually small (0.0019 nm) -- the actual
+      delta (0.0052 nm, ~5 picometers) is physically negligible and should
+      not be reported as a finding just because it technically cleared a
+      noise floor that was itself tiny. Criterion (c) prevents this class of
+      false positive.
 
 For RMSF mutation-site comparisons, a +/-3 residue window max is used
 instead of the exact single-residue value, since RMSF peaks can shift by a
@@ -16,6 +24,12 @@ to that.
 Run from ~/Desktop/Research/Research_Projects/CYP2B6.
 """
 import numpy as np
+
+# Minimum absolute effect size (nm) required to call a delta "robust", even if
+# it clears the WT-replicate noise floor. ~0.01 nm is roughly the scale of
+# typical thermal/positional noise in an MD trajectory at this resolution;
+# below this, a "pass" is more likely a tiny noise floor than a real effect.
+MIN_EFFECT_NM = 0.01
 
 def load(path):
     return np.loadtxt(path, comments=["#", "@"])
@@ -53,7 +67,7 @@ for name, (f1, f2) in alleles_rmsd.items():
     d2 = m2.mean() - wt2_rmsd.mean()
     d_avg = ((m1.mean() + m2.mean()) / 2) - ((wt1_rmsd.mean() + wt2_rmsd.mean()) / 2)
     agree = (d1 > 0) == (d2 > 0)
-    robust = agree and abs(d_avg) > rmsd_noise_floor
+    robust = agree and abs(d_avg) > rmsd_noise_floor and abs(d_avg) > MIN_EFFECT_NM
     rmsd_results[name] = robust
     print(f"{name:15s} {d_avg:8.4f} {d1:8.4f} {d2:8.4f} {str(agree):>7s} {str(robust):>8s}")
 
@@ -88,7 +102,7 @@ for name, (f1, f2, site) in sites.items():
     d2 = m_v2 - wt_v2
     d_avg = ((m_v1 + m_v2) / 2) - ((wt_v1 + wt_v2) / 2)
     agree = (d1 > 0) == (d2 > 0)
-    robust = agree and abs(d_avg) > noise_floor
+    robust = agree and abs(d_avg) > noise_floor and abs(d_avg) > MIN_EFFECT_NM
     print(f"{name:10s} {d_avg:8.4f} {d1:8.4f} {d2:8.4f} {str(agree):>7s} {str(robust):>8s}")
 
 # T306S-R378K, two sites
@@ -104,5 +118,5 @@ for site, label in [(278, "T306"), (350, "R378")]:
     d2 = m_v2 - wt_v2
     d_avg = ((m_v1 + m_v2) / 2) - ((wt_v1 + wt_v2) / 2)
     agree = (d1 > 0) == (d2 > 0)
-    robust = agree and abs(d_avg) > noise_floor
+    robust = agree and abs(d_avg) > noise_floor and abs(d_avg) > MIN_EFFECT_NM
     print(f"T306S-R378K({label}):{'':2s} {d_avg:8.4f} {d1:8.4f} {d2:8.4f} {str(agree):>7s} {str(robust):>8s}")
