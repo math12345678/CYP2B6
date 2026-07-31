@@ -98,8 +98,14 @@ consistency across all systems.
   in most comparisons) — this baseline noise means any allele-specific claim
   about this loop needs the reference-triplicate + 3 SD significance threshold
   (per the CYP3A4 paper's framework), not pairwise-curve reading.
-- Remaining alleles (M46V, I391N, K262R, R140Q, R487C, T306S-R378K) show either
-  no clear effect or single-replicate-only signals that need more data before
+- **K262R and R140Q** show a real, quantified local *rigidification* at their
+  own mutation sites (delta vs. WT: K262R -0.067 nm — the largest mutation-site
+  RMSF change in the entire panel; R140Q -0.051 nm) — opposite direction from
+  S259R's flexibility increase. This was caught during a numeric audit of
+  mutation-site RMSF deltas after an earlier informal visual read had
+  mischaracterized both as "flat, no effect."
+- Remaining alleles (M46V, I391N, R487C, T306S-R378K) show no clear local or
+  global effect, or single-replicate-only signals that need more data before
   treating as reproducible.
 
 ## KDE and heatmap readout (all 11 alleles, complete)

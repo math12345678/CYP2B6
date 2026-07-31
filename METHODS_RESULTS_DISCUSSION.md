@@ -88,9 +88,20 @@ overlapping, its true mutation site. Combined with P428T's clean global RMSD
 separation, this makes P428T the most complete case in the panel of a
 mutation with a coherent, multi-metric structural signature.
 
-All other alleles (M46V, I391N, R140Q, R487C, T306S-R378K) show flat RMSF at
-their own mutation sites, with only single-replicate, unconfirmed local peaks
-elsewhere in the sequence.
+M46V, I391N, R487C, and T306S-R378K (both sites) show flat RMSF (replicate-
+averaged delta within +/-0.03 nm of WT) at their own mutation sites, with only
+single-replicate, unconfirmed local peaks elsewhere in the sequence.
+
+Two alleles show a real but *opposite-direction* local effect worth
+correcting from an earlier informal read of the line plots: **R140Q**
+(delta = -0.051 nm) and **K262R** (delta = -0.067 nm, the single largest
+mutation-site RMSF change of any allele in the panel) both show a measurable
+*decrease* in flexibility at their own mutation sites relative to WT — i.e.
+local rigidification rather than amplification. This is the opposite pattern
+from S259R (local flexibility increase) and is worth its own mechanistic
+interpretation: a mutation that stiffens an otherwise mobile site could
+plausibly restrict a conformational change needed for normal function, just
+as plausibly as one that destabilizes it.
 
 ## Discussion
 
@@ -107,11 +118,17 @@ prioritizing for the next stage of analysis (hydrogen bonding and DRN):
    whether this correlates with loss of a key stabilizing hydrogen-bond
    network or a shift in dynamic residue network centrality near the active
    site.
-3. **S259R** as a case of local, mutation-site flexibility — a second
-   uncertain-function allele, with a plausible local structural mechanism
-   (increased flexibility at an already-mobile loop containing the mutation
-   itself), though a less complete signal than P428T since it shows no
-   corresponding global RMSD effect.
+3. **S259R** as a case of local, mutation-site flexibility increase — a
+   second uncertain-function allele, with a plausible local structural
+   mechanism (increased flexibility at an already-mobile loop containing the
+   mutation itself), though a less complete signal than P428T since it shows
+   no corresponding global RMSD effect.
+4. **K262R and R140Q** as cases of local rigidification rather than
+   destabilization — both show a real decrease in flexibility at their own
+   mutation sites (K262R the largest in the panel, -0.067 nm), the opposite
+   direction from S259R. Worth checking via hydrogen bonding whether this
+   corresponds to a newly formed or strengthened stabilizing contact at the
+   mutation site.
 
 A caution that should carry into every subsequent analysis: the recurring
 ~136-140 loop signal is present in WT itself and varies substantially between
