@@ -39,118 +39,134 @@ including direct confirmation that the G99E mutation appears as GLH
 (protonated glutamate) at GROMACS residue 71 (99 - 28). All mutation-site
 markers in this analysis use this corrected mapping.
 
+**Statistical robustness check.** An initial pass through this analysis
+characterized mutants as "elevated," "flat," or "rigidified" relative to WT
+based on visual comparison of overlaid line plots. This was found to be
+unreliable on its own (see Results) and was replaced with a quantitative
+check (`significance_check.py`): since only two WT replicates are available
+here (rather than the reference triplicate used for the CYP3A4 paper's 3-SD
+threshold), the disagreement between the two WT replicates themselves was
+used as an empirical noise floor. A mutant effect is only reported as
+"robust" if (a) both of its own replicates agree in the direction of the
+change relative to WT, and (b) the replicate-averaged delta exceeds this
+noise floor. For RMSF mutation-site comparisons specifically, a +/-3 residue
+window maximum was used instead of the single-point value at the exact
+mutation-site residue, since RMSF peaks can shift by a residue or two between
+systems and a single-point comparison proved sensitive to that shift (this
+was discovered when it produced a result contradicted by the windowed
+version for the same allele). All findings below use this robustness check;
+anything that does not pass it is explicitly labeled inconclusive rather than
+described directionally.
+
 ## Results
 
-**Global stability (RMSD).** Of the eleven mutant alleles, P428T shows the
-clearest and most consistent destabilization in the entire panel: both
-replicates maintain an elevated RMSD plateau relative to both WT replicates
-for essentially the full 300 ns, with minimal convergence back toward WT at
-any point, and its KDE density is the most clearly broadened/right-shifted of
-any allele tested. I328T shows a similar but slightly less complete effect —
-both replicates trend elevated, but one replicate partially converges back
-toward the WT range around 100-170 ns. Together these are the two strongest
-cases for a mutation shifting the protein toward a distinct, less stable
-conformational ensemble. By contrast, M46V, K139E, I391N, R140Q, and S259R
-each show a KDE density shifted toward *lower* RMSD than WT (tighter, more
-rigid sampling), though in each case this pattern held for only one of the
-two mutant replicates against one of the two WT replicates, not a clean
-four-way separation. G99E, K262R, R487C, and T306S-R378K show substantial
-density overlap with WT, i.e. no strong evidence of an overall stability
-effect from RMSD alone.
+**Global stability (RMSD).** Using the robustness check described above
+(WT rep1-vs-rep2 noise floor = 0.0189 nm), only three of the eleven mutant
+alleles show a replicate-consistent RMSD deviation from WT that exceeds this
+noise floor: **P428T** (delta = +0.048 nm, both replicates elevated),
+**I328T** (delta = +0.035 nm, both replicates elevated), and **M46V**
+(delta = -0.025 nm, both replicates decreased/more rigid). P428T's separation
+is the most complete of the two elevated cases — both replicates stay
+elevated for essentially the full 300 ns, whereas I328T's rep1 partially
+converges back toward WT range around 100-170 ns. M46V's robust global
+compaction was not obvious from visual inspection alone (it had been grouped
+informally with several other alleles that also appeared to trend toward
+lower RMSD) but is the only one of that group whose replicates actually agree
+in direction and clear the noise floor. All other alleles (G99E, K139E,
+I391N, K262R, R140Q, R487C, S259R, T306S-R378K) do not show a
+replicate-consistent RMSD effect that exceeds the noise floor — several
+looked directionally suggestive on the KDE grid, but the two mutant
+replicates either disagreed in direction (R140Q, T306S-R378K) or the
+averaged effect size did not clear what two WT replicates alone would differ
+by.
 
-**Local flexibility (RMSF).** A recurring flexibility peak at true residues
-~136-140 (a loop connecting two alpha-helices, per DSSP secondary structure
-assignment) appeared in the WT reference itself, but with inconsistent
-replicate agreement: across the ten mutants analyzed, a different WT
-replicate showed the higher peak at this loop in nine distinct combinations,
-indicating this is largely inherent simulation-to-simulation variability
-rather than an allele-specific effect. Two alleles nonetheless implicate this
-same loop directly: K139E's mutation site sits inside it, and G99E's mutation
-site (~65 residues away, at a beta-strand/loop junction) correlates with
-flexibility there allosterically.
+**Local flexibility (RMSF) at each allele's own mutation site.** Applying the
+same robustness check (+/-3 residue window, both replicates must agree in
+direction and exceed the WT rep1-vs-rep2 noise floor at that window) to every
+allele's own mutation site: **P428T** shows a robust local flexibility
+increase (delta = +0.058 nm), **K262R** shows a robust local flexibility
+*decrease*/rigidification (delta = -0.057 nm, the largest-magnitude local
+effect in the panel), and **I328T** shows a smaller but still robust local
+increase (delta = +0.026 nm). No other allele's own mutation site passes both
+criteria. Notably, **S259R** does not: an earlier informal read of the line
+plots described "both replicates show amplified RMSF at S259's own site," but
+the windowed, replicate-by-replicate check shows the two S259R replicates
+actually disagree in direction (rep1 delta -0.029, rep2 delta +0.026) once
+peak-shift is accounted for. That claim is retracted here; S259R's own
+mutation site is inconclusive, not amplified. **R140Q** is similarly
+inconclusive at its own site: it sits adjacent to a separately-recurring
+flexibility peak (true residues ~136-140, discussed below) with very high
+WT-replicate disagreement there (noise floor of 0.135-0.220 nm depending on
+window), which swamps any signal a single point mutation could contribute.
+An earlier version of this document reported R140Q as showing "a real
+decrease" at its own site based on a single-point (non-windowed) comparison;
+that comparison did not account for peak-shift or the loop's inherent noise
+and is also retracted.
 
-The strongest local-effect candidate is S259R: both replicates show RMSF
-amplified above WT specifically at S259's own mutation site (a loop that is
-already among the more flexible regions of the protein at baseline), making
-it the only allele where a local flexibility increase is at least directionally
-consistent across both replicates and localizes to the mutation's own
-position rather than a distal site. The panel-wide RMSF heatmap additionally
-highlights G99E as showing the single largest flexibility increase of any
-allele (concentrated around residues 230-260, GROMACS numbering) and K262R
-as showing a distinct, isolated flexibility increase near residue ~163 not
-seen in any other allele.
-
-P428T itself shows no RMSF elevation exactly at its own mutation site
-(residue 428, true numbering), but the panel-wide heatmap shows P428T's
-single largest flexibility deviation of its entire row concentrated at
-residues ~400-415 (GROMACS numbering) — close to, though not precisely
-overlapping, its true mutation site. Combined with P428T's clean global RMSD
-separation, this makes P428T the most complete case in the panel of a
-mutation with a coherent, multi-metric structural signature.
-
-M46V, I391N, R487C, and T306S-R378K (both sites) show flat RMSF (replicate-
-averaged delta within +/-0.03 nm of WT) at their own mutation sites, with only
-single-replicate, unconfirmed local peaks elsewhere in the sequence.
-
-Two alleles show a real but *opposite-direction* local effect worth
-correcting from an earlier informal read of the line plots: **R140Q**
-(delta = -0.051 nm) and **K262R** (delta = -0.067 nm, the single largest
-mutation-site RMSF change of any allele in the panel) both show a measurable
-*decrease* in flexibility at their own mutation sites relative to WT — i.e.
-local rigidification rather than amplification. This is the opposite pattern
-from S259R (local flexibility increase) and is worth its own mechanistic
-interpretation: a mutation that stiffens an otherwise mobile site could
-plausibly restrict a conformational change needed for normal function, just
-as plausibly as one that destabilizes it.
+A recurring flexibility peak at true residues ~136-140 (a loop connecting two
+alpha-helices, per DSSP secondary structure assignment) appears in the WT
+reference itself, with high replicate-to-replicate disagreement across nearly
+every mutant tested — consistent with this being inherent simulation
+variability rather than an allele-specific effect. Two alleles' own mutation
+sites sit at or near this loop (K139E directly inside it, G99E ~65 residues
+away allosterically), but given the loop's own noise floor is far larger than
+typical mutation-site deltas seen elsewhere in this panel, no allele-specific
+claim about this loop is made here without the reference-triplicate framework
+the CYP3A4 paper uses.
 
 ## Discussion
 
-The RMSD/RMSF results provide three candidate mechanistic hypotheses worth
-prioritizing for the next stage of analysis (hydrogen bonding and DRN):
+Applying a real robustness check rather than visual comparison substantially
+changed which findings can be trusted, and in one case (S259R) reversed a
+conclusion reported earlier. The findings that survive replicate-consistency
+and noise-floor testing are:
 
-1. **P428T** as the strongest overall case — clean, sustained global
-   destabilization in both replicates plus a large local flexibility
-   deviation near its own mutation site. This is one of the three
-   uncertain-function alleles, and the most complete structural evidence for
-   a real effect found in this analysis; it should be the top priority for
-   H-bond and DRN follow-up.
-2. **I328T** as a second case of global destabilization — worth checking
-   whether this correlates with loss of a key stabilizing hydrogen-bond
-   network or a shift in dynamic residue network centrality near the active
-   site.
-3. **S259R** as a case of local, mutation-site flexibility increase — a
-   second uncertain-function allele, with a plausible local structural
-   mechanism (increased flexibility at an already-mobile loop containing the
-   mutation itself), though a less complete signal than P428T since it shows
-   no corresponding global RMSD effect.
-4. **K262R and R140Q** as cases of local rigidification rather than
-   destabilization — both show a real decrease in flexibility at their own
-   mutation sites (K262R the largest in the panel, -0.067 nm), the opposite
-   direction from S259R. Worth checking via hydrogen bonding whether this
-   corresponds to a newly formed or strengthened stabilizing contact at the
-   mutation site.
+1. **P428T** remains the strongest case in the panel, and is now on firmer
+   footing than before: it is the only allele with *both* a robust global
+   RMSD elevation *and* a robust local RMSF elevation at its own mutation
+   site, with both replicates agreeing in direction on both metrics. This is
+   one of the three uncertain-function alleles and should be the top
+   priority for H-bond and DRN follow-up.
+2. **I328T** is the second-strongest case — robust global RMSD elevation
+   plus a smaller but still robust local RMSF increase at its own site
+   (previously reported as "flat" before the windowed check). Worth checking
+   whether this correlates with loss of a stabilizing hydrogen-bond network
+   or a DRN centrality shift near the active site.
+3. **K262R** shows a robust local rigidification at its own mutation site
+   (the largest-magnitude local effect in the panel) without a corresponding
+   global RMSD effect — a mutation that stiffens an otherwise mobile site
+   rather than destabilizing the protein overall. Worth checking via
+   hydrogen bonding whether this corresponds to a newly formed or
+   strengthened stabilizing contact.
+4. **M46V** shows a robust global RMSD compaction/rigidification without a
+   corresponding local signal at its own mutation site — a candidate for an
+   allosteric or distributed stabilizing effect rather than one localized to
+   the mutation position, worth checking against DRN centrality changes.
 
-A caution that should carry into every subsequent analysis: the recurring
-~136-140 loop signal is present in WT itself and varies substantially between
-WT replicates, meaning any claim that a specific allele perturbs this loop
-needs to be tested against the reference-replicate spread (e.g., a 3-standard-
-deviation threshold over WT replicates, as used in the CYP3A4 paper) rather
-than a pairwise visual comparison. This same caution likely applies to any
-region where WT replicate agreement is not first confirmed.
+**Retracted from earlier versions of this analysis:** S259R's local RMSF
+"amplification" claim (the two replicates actually disagree in direction once
+peak-shift is properly accounted for) and R140Q's local RMSF "rigidification"
+claim (based on an unreliable single-point comparison inside a very noisy
+region). Both alleles' own mutation sites should currently be treated as
+inconclusive for RMSF, not directional.
 
-No conclusions are drawn here about the third uncertain allele,
-T306S-R378K, beyond noting that neither of its two point mutations shows a
-local RMSF effect, and its RMSD shows two non-overlapping single-replicate
-excursions rather than one reproducible signal — it remains the least
-resolved of the three uncertain alleles pending hydrogen-bond and DRN data.
+No conclusions are drawn about the third uncertain allele, T306S-R378K:
+neither of its two point mutations shows a robust local RMSF effect, and its
+global RMSD shows replicate-disagreeing excursions rather than one
+reproducible signal. It remains the least resolved of the three uncertain
+alleles pending hydrogen-bond and DRN data.
 
 ## Next steps
 
 1. Hydrogen bond frequency analysis, all 11 alleles vs. WT.
 2. DRN analysis via MDM-TASK-web (betweenness, closeness, eigenvector
-   centrality), prioritizing the three uncertain-function alleles (P428T,
-   S259R, T306S-R378K) — P428T first, given the strength of its RMSD/RMSF
-   signal.
-3. Re-evaluate the ~136-140 loop and the P428T/I328T/S259R hypotheses above
-   once H-bond and DRN data are available, applying the reference-triplicate
-   significance threshold rather than pairwise comparison.
+   centrality), prioritizing the three uncertain-function alleles in this
+   order given the RMSD/RMSF evidence: P428T first (strongest, multi-metric
+   signal), then S259R and T306S-R378K (both currently inconclusive and in
+   most need of an independent method to resolve).
+3. Once H-bond and DRN data exist, request or approximate a proper
+   reference-triplicate 3-SD threshold (the CYP3A4 paper's framework) rather
+   than continuing to rely on a 2-replicate noise floor, which is a workable
+   but weaker substitute.
+4. Re-run this same robustness check (`significance_check.py`) on H-bond and
+   DRN metrics once available, rather than reverting to visual comparison.

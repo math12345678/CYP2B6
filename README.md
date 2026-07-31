@@ -71,51 +71,65 @@ consistency across all systems.
   distinct/broader conformational ensemble than WT.
 - `plot_rmsf_heatmap.py` — single heatmap of RMSF delta (mutant avg - WT avg)
   across all 11 alleles and all residues, per Prof. Bishop's request.
+- `significance_check.py` — quantitative robustness check for both RMSD and
+  RMSF mutation-site deltas, using WT rep1-vs-rep2 disagreement as an
+  empirical noise floor and requiring both mutant replicates to agree in
+  direction. Added after a visual-only read produced an incorrect conclusion
+  (see summary below) — run this before trusting any directional claim in
+  this analysis.
 
-## Panel-wide RMSD/RMSF summary (all 11 alleles, complete)
+## Panel-wide RMSD/RMSF summary (all 11 alleles, statistically checked)
 
-- **P428T** (uncertain-function allele): the strongest overall signal in the
-  panel. Both replicates show sustained elevated RMSD vs. both WT replicates
-  for essentially the entire 300 ns (cleaner, more complete separation than
-  I328T, which partially converged back to WT range in one replicate). Its KDE
-  density is the most clearly shifted/broadened of any allele. The RMSF
-  heatmap additionally shows P428T's single largest per-allele deviation
-  (residues ~400-415, GROMACS numbering) sitting close to its own true
-  mutation site (residue 428 / 400 GROMACS) — the combination of a clean
-  global destabilization plus a local flexibility signal near the mutation
-  site makes this the most complete "mutation has a measurable effect" case
-  found so far, and it resolves one of the three previously uncertain-function
-  alleles.
-- **I328T**: also a clear global stability effect — sustained elevated RMSD vs.
-  both WT replicates for most of the 300 ns.
-- **S259R** (uncertain-function allele): both replicates show amplified local
-  RMSF right at their own (shared, inherently flexible) mutation site.
+A quantitative robustness check (`significance_check.py`) was applied after
+an initial visual-comparison pass produced at least one wrong conclusion
+(see below): a mutant effect only counts as "robust" if both of its own
+replicates agree in direction and the replicate-averaged delta exceeds the
+disagreement between the two WT replicates themselves (the best available
+noise floor with only 2 WT replicates). Everything below reflects that
+checked version, not the original visual read.
+
+- **P428T** (uncertain-function allele): the strongest signal in the panel,
+  and the only allele with *both* a robust global RMSD elevation (+0.048 nm,
+  both replicates) *and* a robust local RMSF elevation at its own mutation
+  site (+0.058 nm, both replicates). Resolves one of the three
+  uncertain-function alleles.
+- **I328T**: robust global RMSD elevation (+0.035 nm) plus a smaller but still
+  robust local RMSF increase at its own site (+0.026 nm) — the local signal
+  was missed in the first pass (called "flat") until the windowed check.
+- **K262R**: robust local RMSF *rigidification* at its own mutation site
+  (-0.057 nm, the largest-magnitude local effect in the panel), with no
+  corresponding global RMSD effect.
+- **M46V**: robust global RMSD compaction (-0.025 nm, both replicates) with no
+  corresponding local site effect — easy to miss visually since it had been
+  informally lumped with several other alleles that only *looked* similar;
+  it's the only one of that group that's actually statistically real.
+- **Retracted:** S259R's "amplified local RMSF at its own site" and R140Q's
+  "local rigidification at its own site" — both were reported in earlier
+  passes of this analysis based on visual/single-point comparison, and both
+  do not survive the robustness check (S259R's replicates disagree in
+  direction once peak-shift is accounted for; R140Q's own site sits inside a
+  region with WT-replicate noise far larger than any mutation could plausibly
+  contribute). Both alleles are inconclusive for RMSF, not directional.
 - **G99E** and **K139E** both implicate the same loop (true residues ~136-140):
   G99E allosterically (~65 residues away), K139E directly (mutation site sits
-  inside the loop).
-- The 108-112 (GROMACS)/136-140 (true) loop shows high WT-replicate variability
-  across nearly every mutant tested (a different WT replicate is "the high one"
-  in most comparisons) — this baseline noise means any allele-specific claim
-  about this loop needs the reference-triplicate + 3 SD significance threshold
-  (per the CYP3A4 paper's framework), not pairwise-curve reading.
-- **K262R and R140Q** show a real, quantified local *rigidification* at their
-  own mutation sites (delta vs. WT: K262R -0.067 nm — the largest mutation-site
-  RMSF change in the entire panel; R140Q -0.051 nm) — opposite direction from
-  S259R's flexibility increase. This was caught during a numeric audit of
-  mutation-site RMSF deltas after an earlier informal visual read had
-  mischaracterized both as "flat, no effect."
-- Remaining alleles (M46V, I391N, R487C, T306S-R378K) show no clear local or
-  global effect, or single-replicate-only signals that need more data before
-  treating as reproducible.
+  inside the loop) — but this loop's own WT-replicate noise floor is large
+  enough that no allele-specific claim about it is made without a proper
+  reference-triplicate framework.
+- Remaining alleles (I391N, R487C, T306S-R378K) show no robust local or
+  global effect by this check.
 
 ## KDE and heatmap readout (all 11 alleles, complete)
 
 - **KDE**: P428T and I328T show the clearest broadened/right-shifted densities
   relative to WT — the two strongest "distinct conformational ensemble" cases
   in the panel, with P428T's separation the more complete of the two. M46V,
-  K139E, I391N, R140Q, and S259R all show a mutant peak shifted toward lower
-  RMSD than WT rep1, often tighter/narrower. G99E, K262R, R487C, and
-  T306S-R378K show substantial overlap with WT — no clean density separation.
+  K139E, I391N, R140Q, and S259R all *visually* show a mutant peak shifted
+  toward lower RMSD than WT rep1, but the quantitative check
+  (`significance_check.py`) shows only M46V's shift is actually
+  replicate-consistent and beyond the WT-replicate noise floor — the other
+  four in that group do not pass the robustness check. G99E, K262R, R487C,
+  and T306S-R378K show substantial overlap with WT — no clean density
+  separation.
 - **Heatmap**: G99E shows the single strongest deviation block (dark red,
   ~residues 230-260 GROMACS numbering — more flexible than WT on average),
   closely followed by P428T's own strongest deviation near residues ~400-415,
