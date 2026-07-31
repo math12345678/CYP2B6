@@ -72,19 +72,30 @@ consistency across all systems.
 - `plot_rmsf_heatmap.py` — single heatmap of RMSF delta (mutant avg - WT avg)
   across all 11 alleles and all residues, per Prof. Bishop's request.
 
-## Panel-wide RMSD/RMSF summary (as of July 29 analysis pass)
+## Panel-wide RMSD/RMSF summary (all 11 alleles, complete)
 
-- **I328T**: clearest global stability effect — sustained elevated RMSD vs. both
-  WT replicates for the full 300 ns.
+- **P428T** (uncertain-function allele): the strongest overall signal in the
+  panel. Both replicates show sustained elevated RMSD vs. both WT replicates
+  for essentially the entire 300 ns (cleaner, more complete separation than
+  I328T, which partially converged back to WT range in one replicate). Its KDE
+  density is the most clearly shifted/broadened of any allele. The RMSF
+  heatmap additionally shows P428T's single largest per-allele deviation
+  (residues ~400-415, GROMACS numbering) sitting close to its own true
+  mutation site (residue 428 / 400 GROMACS) — the combination of a clean
+  global destabilization plus a local flexibility signal near the mutation
+  site makes this the most complete "mutation has a measurable effect" case
+  found so far, and it resolves one of the three previously uncertain-function
+  alleles.
+- **I328T**: also a clear global stability effect — sustained elevated RMSD vs.
+  both WT replicates for most of the 300 ns.
 - **S259R** (uncertain-function allele): both replicates show amplified local
-  RMSF right at their own (shared, inherently flexible) mutation site — the
-  strongest local-effect candidate found.
+  RMSF right at their own (shared, inherently flexible) mutation site.
 - **G99E** and **K139E** both implicate the same loop (true residues ~136-140):
   G99E allosterically (~65 residues away), K139E directly (mutation site sits
   inside the loop).
 - The 108-112 (GROMACS)/136-140 (true) loop shows high WT-replicate variability
   across nearly every mutant tested (a different WT replicate is "the high one"
-  in ~9 of 11 comparisons) — this baseline noise means any allele-specific claim
+  in most comparisons) — this baseline noise means any allele-specific claim
   about this loop needs the reference-triplicate + 3 SD significance threshold
   (per the CYP3A4 paper's framework), not pairwise-curve reading.
 - Remaining alleles (M46V, I391N, K262R, R140Q, R487C, T306S-R378K) show either
@@ -93,18 +104,21 @@ consistency across all systems.
 
 ## KDE and heatmap readout (all 11 alleles, complete)
 
-- **KDE**: I328T shows the clearest broadened/right-shifted density relative to
-  WT — the strongest "distinct conformational ensemble" case in the panel.
-  M46V, K139E, I391N, R140Q, and S259R all show a mutant peak shifted toward
-  lower RMSD than WT rep1, often tighter/narrower. G99E, K262R, R487C, and
+- **KDE**: P428T and I328T show the clearest broadened/right-shifted densities
+  relative to WT — the two strongest "distinct conformational ensemble" cases
+  in the panel, with P428T's separation the more complete of the two. M46V,
+  K139E, I391N, R140Q, and S259R all show a mutant peak shifted toward lower
+  RMSD than WT rep1, often tighter/narrower. G99E, K262R, R487C, and
   T306S-R378K show substantial overlap with WT — no clean density separation.
 - **Heatmap**: G99E shows the single strongest deviation block (dark red,
-  ~residues 230-260 GROMACS numbering — more flexible than WT on average).
-  K262R has its own distinct hotspot near residue ~163 (red) plus a rigidifying
-  band near ~230 (blue); R140Q shows a similar blue band at ~230. The 108-112
-  hotspot loop column is muted/mixed across alleles rather than one consistent
-  color, supporting the read that this loop's signal is WT replicate noise
-  rather than an allele-specific effect.
+  ~residues 230-260 GROMACS numbering — more flexible than WT on average),
+  closely followed by P428T's own strongest deviation near residues ~400-415,
+  close to its true mutation site. K262R has its own distinct hotspot near
+  residue ~163 (red) plus a rigidifying band near ~230 (blue); R140Q shows a
+  similar blue band at ~230. The 108-112 hotspot loop column is muted/mixed
+  across alleles rather than one consistent color, supporting the read that
+  this loop's signal is WT replicate noise rather than an allele-specific
+  effect.
 
 ## Next steps (per July 29 meeting with Prof. Bishop and Shaylyn)
 

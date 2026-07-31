@@ -21,6 +21,7 @@ alleles = [
     ("K262R",       "K262R/rmsf_K262R.xvg",             "K262R_2/rmsf_K262R_2.xvg"),
     ("R140Q",       "R140Q/rmsf_R140Q.xvg",             "R140Q_2/rmsf_R140Q_2.xvg"),
     ("R487C",       "R487C/rmsf_R487C.xvg",             "R487C_2/rmsf_R487C_2.xvg"),
+    ("P428T",       "P428T/rmsf_P428T.xvg",             "P428T_2/rmsf_P428T_2.xvg"),
     ("S259R",       "S259R/rmsf_S259R.xvg",             "S259R_2/rmsf_S259R_2.xvg"),
     ("T306S-R378K", "T306S-R378K/rmsf_T306S-R378K.xvg", "T306S-R378K_2/rmsf_T306S-R378K_2.xvg"),
 ]

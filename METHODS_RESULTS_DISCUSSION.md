@@ -6,8 +6,8 @@
 
 ## Methods
 
-Eleven CYP2B6 alleles (G99E, K139E, M46V, I328T, I391N, K262R, R140Q, R487C,
-S259R, T306S-R378K, and wild-type) were each simulated for 300 ns in two
+Eleven CYP2B6 mutant alleles (G99E, K139E, M46V, I328T, I391N, K262R, R140Q,
+R487C, P428T, S259R, T306S-R378K), plus wild-type, were each simulated for 300 ns in two
 independent replicates, using a homology model built from PDB 5UFG (MODELLER
 10.4), the AmberFF14SB force field, and TIP3P water, in GROMACS. Trajectories
 were provided pre-run and post-processed (PBC removal, water stripping); this
@@ -41,18 +41,22 @@ markers in this analysis use this corrected mapping.
 
 ## Results
 
-**Global stability (RMSD).** Of the ten mutant alleles, I328T shows the
-clearest and most consistent destabilization: both replicates maintain an
-elevated RMSD plateau relative to both WT replicates for the entire 300 ns,
-and its KDE density is visibly broader and right-shifted relative to WT with
-minimal overlap — the strongest evidence in the panel for a mutation that
-shifts the protein toward a distinct, less stable conformational ensemble.
-By contrast, M46V, K139E, I391N, R140Q, and S259R each show a KDE density
-shifted toward *lower* RMSD than WT (tighter, more rigid sampling), though in
-each case this pattern held for only one of the two mutant replicates against
-one of the two WT replicates, not a clean four-way separation. G99E, K262R,
-R487C, and T306S-R378K show substantial density overlap with WT, i.e. no
-strong evidence of an overall stability effect from RMSD alone.
+**Global stability (RMSD).** Of the eleven mutant alleles, P428T shows the
+clearest and most consistent destabilization in the entire panel: both
+replicates maintain an elevated RMSD plateau relative to both WT replicates
+for essentially the full 300 ns, with minimal convergence back toward WT at
+any point, and its KDE density is the most clearly broadened/right-shifted of
+any allele tested. I328T shows a similar but slightly less complete effect —
+both replicates trend elevated, but one replicate partially converges back
+toward the WT range around 100-170 ns. Together these are the two strongest
+cases for a mutation shifting the protein toward a distinct, less stable
+conformational ensemble. By contrast, M46V, K139E, I391N, R140Q, and S259R
+each show a KDE density shifted toward *lower* RMSD than WT (tighter, more
+rigid sampling), though in each case this pattern held for only one of the
+two mutant replicates against one of the two WT replicates, not a clean
+four-way separation. G99E, K262R, R487C, and T306S-R378K show substantial
+density overlap with WT, i.e. no strong evidence of an overall stability
+effect from RMSD alone.
 
 **Local flexibility (RMSF).** A recurring flexibility peak at true residues
 ~136-140 (a loop connecting two alpha-helices, per DSSP secondary structure
@@ -76,23 +80,38 @@ allele (concentrated around residues 230-260, GROMACS numbering) and K262R
 as showing a distinct, isolated flexibility increase near residue ~163 not
 seen in any other allele.
 
+P428T itself shows no RMSF elevation exactly at its own mutation site
+(residue 428, true numbering), but the panel-wide heatmap shows P428T's
+single largest flexibility deviation of its entire row concentrated at
+residues ~400-415 (GROMACS numbering) — close to, though not precisely
+overlapping, its true mutation site. Combined with P428T's clean global RMSD
+separation, this makes P428T the most complete case in the panel of a
+mutation with a coherent, multi-metric structural signature.
+
 All other alleles (M46V, I391N, R140Q, R487C, T306S-R378K) show flat RMSF at
 their own mutation sites, with only single-replicate, unconfirmed local peaks
 elsewhere in the sequence.
 
 ## Discussion
 
-The RMSD/RMSF results provide two candidate mechanistic hypotheses worth
+The RMSD/RMSF results provide three candidate mechanistic hypotheses worth
 prioritizing for the next stage of analysis (hydrogen bonding and DRN):
 
-1. **I328T** as a case of global destabilization — worth checking whether
-   this correlates with loss of a key stabilizing hydrogen-bond network or a
-   shift in dynamic residue network centrality near the active site.
-2. **S259R** as a case of local, mutation-site flexibility — one of three
-   alleles with currently uncertain functional classification, and the only
-   one in this analysis with a plausible local structural mechanism
+1. **P428T** as the strongest overall case — clean, sustained global
+   destabilization in both replicates plus a large local flexibility
+   deviation near its own mutation site. This is one of the three
+   uncertain-function alleles, and the most complete structural evidence for
+   a real effect found in this analysis; it should be the top priority for
+   H-bond and DRN follow-up.
+2. **I328T** as a second case of global destabilization — worth checking
+   whether this correlates with loss of a key stabilizing hydrogen-bond
+   network or a shift in dynamic residue network centrality near the active
+   site.
+3. **S259R** as a case of local, mutation-site flexibility — a second
+   uncertain-function allele, with a plausible local structural mechanism
    (increased flexibility at an already-mobile loop containing the mutation
-   itself).
+   itself), though a less complete signal than P428T since it shows no
+   corresponding global RMSD effect.
 
 A caution that should carry into every subsequent analysis: the recurring
 ~136-140 loop signal is present in WT itself and varies substantially between
@@ -112,8 +131,9 @@ resolved of the three uncertain alleles pending hydrogen-bond and DRN data.
 
 1. Hydrogen bond frequency analysis, all 11 alleles vs. WT.
 2. DRN analysis via MDM-TASK-web (betweenness, closeness, eigenvector
-   centrality), prioritizing the three uncertain-function alleles (S259R,
-   P428T, T306S-R378K).
-3. Re-evaluate the ~136-140 loop and the I328T/S259R hypotheses above once
-   H-bond and DRN data are available, applying the reference-triplicate
+   centrality), prioritizing the three uncertain-function alleles (P428T,
+   S259R, T306S-R378K) — P428T first, given the strength of its RMSD/RMSF
+   signal.
+3. Re-evaluate the ~136-140 loop and the P428T/I328T/S259R hypotheses above
+   once H-bond and DRN data are available, applying the reference-triplicate
    significance threshold rather than pairwise comparison.
