@@ -37,10 +37,29 @@ def load_pairs(path):
             rows.append((int(r["donor_resid"]), int(r["acceptor_resid"]), float(r["frequency"])))
     return rows
 
+# Heme cofactor residues (CM1/HM1/FE1), confirmed via verify_hbond_numbering.py
+# to sit at resids 408, 464, 465 in this topology -- close enough to the
+# protein's last residue (463) that a mutation-site window near the
+# C-terminus (e.g. R487C at site 459, window 456-462) could in principle
+# pull in heme atoms. Manual check showed no actual overlap for any current
+# allele, but site_window_sum() excludes these resids explicitly rather than
+# relying on that margin holding by chance for future sites.
+HEME_RESIDS = {408, 464, 465}
+
 def site_window_sum(pairs, target, w=3):
+    """A pair counts if either residue is a real (non-heme) residue inside
+    the window. Excluding a heme resid from ever counting as "the window
+    residue" guards against the near-miss found in verify_hbond_numbering.py
+    (R487C's window sits 2 residues from heme resid 464) -- but a window
+    residue's H-bond to a heme atom (e.g. a nearby residue contacting a heme
+    propionate) is real signal and must still be counted; only the heme side
+    of that pair is excluded from *being* the window match, not the pair
+    itself."""
     total = 0.0
     for d_resid, a_resid, freq in pairs:
-        if (target - w <= d_resid <= target + w) or (target - w <= a_resid <= target + w):
+        d_in_window = d_resid not in HEME_RESIDS and (target - w <= d_resid <= target + w)
+        a_in_window = a_resid not in HEME_RESIDS and (target - w <= a_resid <= target + w)
+        if d_in_window or a_in_window:
             total += freq
     return total
 
