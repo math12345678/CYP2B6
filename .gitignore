@@ -18,3 +18,10 @@ CYP3A4_Genetic_Variant_Metabolism.png
 
 # OS clutter
 .DS_Store
+
+# MDAnalysis trajectory-offset cache (regenerated automatically, not needed)
+.*_offsets.lock
+.*_offsets.npz
+
+# GROMACS auto-backup files (e.g. #md_protein.tpr.1#)
+\#*\#

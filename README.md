@@ -140,10 +140,45 @@ checked version, not the original visual read.
   this loop's signal is WT replicate noise rather than an allele-specific
   effect.
 
+## Hydrogen bond analysis
+
+GROMACS's own H-bond tools do not work on this dataset: `gmx hbond-legacy`
+segfaults during its grid search, and the newer `gmx hbond` reports 0
+donors/acceptors regardless of selection syntax (these 2018.6-generated
+topologies appear to lack element metadata the newer tool needs). Switched
+to MDAnalysis's `HydrogenBondAnalysis` instead, which identifies donors,
+hydrogens, and acceptors by atom name/element rather than partial charge.
+
+Two topology fixes were required first (see `fix_topology.sh`,
+`check_topology.py`):
+- The raw `.tpr` describes the full system (protein+water+ions), but the
+  pre-stripped `md_noWAT.xtc` is protein+heme only. A matching protein+heme
+  subset topology (`md_protein.tpr` / `md_protein_ref.gro`) is generated per
+  system via `gmx convert-tpr` (group `Protein_CM1_HM1_FE1`) + `gmx trjconv`.
+- MDAnalysis's bond-guessing has no default van der Waals radius for the
+  heme iron (Fe); supplied manually in `hbond_analysis.py`.
+
+Run order: `fix_topology.sh` → `check_topology.py` → `run_all_hbonds.py`
+(batch driver over all 22 systems, calls `hbond_analysis.py` per system) →
+`hbond_significance_check.py` (same WT-replicate-noise-floor robustness
+framework as `significance_check.py`, applied to a global metric — mean
+H-bonds/frame — and a local metric — summed pair frequency in a +/-3 residue
+window around each allele's mutation site).
+
+**Results:** no allele shows a robust *global* H-bond count change (WT
+noise floor = 11.14 bonds/frame, larger than nearly every allele's effect).
+At the *local* (mutation-site) level, four results are robust: **P428T**
+(+0.498), **I328T** (+0.542), **G99E** (+0.361, a new finding not seen in
+RMSD/RMSF), and **T306S-R378K's R378 site** (-0.571, its first robust
+finding by any metric). P428T and I328T's H-bond results corroborate their
+existing robust RMSD/RMSF findings; K262R's RMSF rigidification does not
+have a matching robust H-bond effect. Full writeup in
+`METHODS_RESULTS_DISCUSSION.md`.
+
 ## Next steps (per July 29 meeting with Prof. Bishop and Shaylyn)
 
-1. Finish RMSD (KDE) and RMSF (heatmap) figures, improve labeling (bigger axis
-   labels/titles/legends, one figure legend per comparison stating which
-   mutant vs. WT).
-2. Hydrogen bond analysis (next method in the pipeline).
-3. DRN analysis via MDM-TASK-web.
+1. ~~Finish RMSD (KDE) and RMSF (heatmap) figures, improve labeling~~ — done.
+2. ~~Hydrogen bond analysis~~ — done, see above.
+3. DRN analysis via MDM-TASK-web, prioritizing P428T and I328T (convergent
+   multi-metric evidence), then T306S-R378K (one narrow finding at R378),
+   then S259R (no robust finding yet by any metric).
