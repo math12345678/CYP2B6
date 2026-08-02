@@ -91,6 +91,44 @@ donor-acceptor pair frequencies where either residue falls within a +/-3
 residue window of the allele's own mutation site, the H-bond analogue of the
 windowed RMSF check).
 
+**Dynamic residue network (DRN) analysis.** Betweenness (BC), closeness (CC),
+and eigenvector (EC) centrality were computed per residue with `calc_network.py`
+from MD-TASK (RUBi-ZA/MD-TASK, `mdm-task-web` branch — the RUBi group's own
+tool, installed locally rather than via its web-upload interface since the
+trajectories here are multi-gigabyte). The tool requires a PDB topology
+rather than `.gro`/`.tpr`; each system's `md_protein_ref.gro` was converted
+via `gmx editconf` (`convert_to_pdb.sh`). Network nodes are one representative
+atom per residue (CB, or CA for glycine), connected by an edge when the two
+representative atoms fall within the tool's default 6.7 Å cutoff. Metrics
+were computed every 100 frames (~1 ns intervals across the 300 ns trajectory,
+300 frames total) rather than every frame, based on a timing test showing the
+full-resolution run would take prohibitively long across all 22 systems;
+`run_all_drn.py` batched this across all systems in priority order.
+
+A methodological issue was found and must be accounted for in any residue-
+level DRN comparison: the heme cofactor is not fully excluded by the CB/CA-
+based network reduction. Cross-referencing each system's output CSV against
+its paired `.cif` structure file (which carries the true residue number as
+`auth_seq_id`) confirmed that CSV row N corresponds exactly to GROMACS resid
+N — but row/resid 408 is not a real amino acid; it is the heme cofactor's
+CM1 component, which happens to have an atom named "CB" in this force field
+and therefore survives the reduction step as a spurious 463rd network node
+(462 real residues + 1 heme node). Heme's other components (HM1 hydrogens,
+FE1 iron) do not have a CA/CB-named atom and are correctly excluded. This
+mirrors, but is distinct from, the heme-adjacency issue found during the
+H-bond analysis (there, heme resids sat *near* certain mutation-site windows;
+here, heme is an actual row inside the per-residue centrality dataset).
+`drn_significance_check.py` explicitly excludes resid 408 from both the
+global (whole-protein mean) and local (mutation-site window) metrics, rather
+than relying on no mutation site's window happening to reach it (none
+currently do — the closest is P428T at 397-403 — but this is guarded
+defensively regardless, following the same precaution taken for the heme-
+adjacency issue in `hbond_significance_check.py`). The same
+replicate-noise-floor robustness framework used for RMSD/RMSF/H-bonds was
+applied to each of BC, CC, and EC: a global metric (mean centrality across
+all real residues) and a local metric (window-max value in a +/-3 residue
+window at each allele's own mutation site).
+
 ## Results
 
 **Global stability (RMSD).** Using the robustness check described above
@@ -180,6 +218,27 @@ K262R's RMSF rigidification does not have a corresponding robust local
 H-bond signal, so that finding remains supported by RMSF alone rather than
 by convergent evidence across methods.
 
+**DRN centrality (BC, CC, EC).** At the global (whole-protein mean) level,
+essentially no allele shows a robust effect in any of the three centrality
+metrics — expected, since a single point mutation rarely shifts a
+whole-protein average computed over 462 residues. The few that nominally
+pass (S259R for BC; G99E, I328T, K262R, R487C, P428T for EC) sit close to
+their respective noise floors and should be treated cautiously rather than
+as strong global findings.
+
+At the local (mutation-site window) level, robust effects are: **BC** —
+G99E, K139E, M46V, R140Q, S259R; **CC** — M46V, I391N; **EC** — R487C (and
+the R378 site of T306S-R378K). Notably, **P428T and I328T — the two alleles
+prioritized for DRN analysis on the strength of their convergent
+RMSD/RMSF/H-bond evidence — show no robust local DRN signal in any of the
+three metrics.** P428T's local deltas are the largest in the panel for all
+three metrics (BC -0.012, CC -0.007, EC -0.015), but its own two replicates
+disagree in direction in every case (e.g. BC: rep1 -0.0267 vs rep2 +0.0020),
+so despite the large magnitude this does not clear the robustness bar. This
+is reported as a genuine negative result rather than downplayed: at the
+network-centrality layer specifically, the two highest-priority alleles from
+Parts 1-2 do not show a reproducible signal at their own mutation site.
+
 ## Discussion
 
 Applying a real robustness check rather than visual comparison substantially
@@ -187,40 +246,54 @@ changed which findings can be trusted, and in one case (S259R) reversed a
 conclusion reported earlier. The findings that survive replicate-consistency
 and noise-floor testing are:
 
-1. **P428T** remains the strongest case in the panel, now supported by three
-   independent, mutually-corroborating robust findings: elevated global RMSD,
-   elevated local RMSF at its own site, and elevated local H-bond count at
-   its own site. This is one of the three uncertain-function alleles and
-   should be the top priority for DRN follow-up.
-2. **I328T** is the second-strongest case, also now with convergent evidence
-   across three metrics: robust global RMSD elevation, a smaller but robust
-   local RMSF increase (previously reported as "flat" before the windowed
-   check), and a robust local H-bond increase at its own site. Worth
-   checking whether this correlates with a DRN centrality shift near the
-   active site.
-3. **G99E** is a new finding that only emerges from the H-bond analysis: it
-   showed no robust global or local effect by RMSD/RMSF, but does show a
-   robust local H-bond increase at its own site. Since this is a single-
-   method finding so far, it should be treated as provisional pending DRN
-   data rather than placed on the same footing as P428T/I328T.
+1. **P428T** was the strongest case across RMSD/RMSF/H-bonds (elevated global
+   RMSD, elevated local RMSF and H-bond count at its own site), but this
+   convergence does **not** extend to DRN centrality: none of BC, CC, or EC
+   pass the robustness check at its own site, and its two replicates
+   disagree in direction on all three despite showing the largest-magnitude
+   deltas in the panel. Read together, this now looks like a site with real,
+   reproducible local backbone flexibility and transient H-bonding, but
+   without a corresponding reproducible shift in network centrality/topology
+   at that residue — the mutation may be affecting local dynamics without
+   rewiring the broader residue-interaction network in a consistent way.
+2. **I328T** similarly showed convergent RMSD/RMSF/H-bond evidence but no
+   robust DRN finding at its own site in any of the three centrality
+   metrics. As with P428T, the RMSD/RMSF/H-bond case stands on its own but
+   is not corroborated by network centrality.
+3. **G99E** is a new finding that first emerged from the H-bond analysis (a
+   robust local H-bond increase at its own site, without a robust RMSD/RMSF
+   effect), and now also shows a robust local BC increase at its own site —
+   the first allele with a robust finding across two independent methods
+   without also having a robust RMSD/RMSF signal. This strengthens G99E as
+   worth continued attention, on different grounds than P428T/I328T.
 4. **K262R** shows a robust local rigidification at its own mutation site by
    RMSF (the largest-magnitude local RMSF effect in the panel) without a
-   corresponding global RMSD effect or a robust local H-bond effect — a
-   mutation that stiffens an otherwise mobile site by some mechanism other
-   than a straightforward gain of hydrogen bonding at that site. Worth
-   checking against DRN centrality changes, since the rigidification is not
-   explained by the H-bond data collected so far.
+   corresponding global RMSD effect or a robust local H-bond effect, and
+   without a robust DRN finding at its own site either — a mutation whose
+   local stiffening is not explained by, or reflected in, either the
+   H-bond or centrality data collected so far.
 5. **M46V** shows a robust global RMSD compaction/rigidification without a
-   corresponding local RMSF signal or a robust local H-bond effect at its own
-   mutation site — a candidate for an allosteric or distributed stabilizing
-   effect rather than one localized to the mutation position, worth checking
-   against DRN centrality changes.
-6. **T306S-R378K**: while its global RMSD and global H-bond count both fail
-   the robustness check, its R378 site specifically shows a robust local
-   H-bond *decrease* (delta = -0.571) not seen at its paired T306 site. This
-   is the first robust finding of any kind for this previously fully
-   inconclusive allele, and narrows the open question to the R378 mutation
-   specifically rather than the double mutant as a whole.
+   corresponding local RMSF or H-bond effect at its own mutation site, but
+   now also shows robust local BC *and* CC increases at its own site — the
+   only allele with robust local hits in two of the three DRN metrics. This
+   is consistent with the earlier hypothesis that M46V's effect is
+   distributed/allosteric rather than localized to backbone flexibility
+   alone: an increase in local network centrality is plausible for a
+   stabilizing, connectivity-altering mutation that doesn't show up as an
+   RMSF or H-bond change at the site itself.
+6. **T306S-R378K**: its R378 site (not T306) continues to be the only part
+   of this allele with robust findings: a local H-bond decrease (delta =
+   -0.571) and now also a robust global EC shift and a robust local EC
+   increase at the R378 site specifically. T306 shows no robust finding in
+   any metric across any of the three analyses. This narrows the case for
+   this allele's functional effect specifically to the R378 substitution.
+7. **K139E, R140Q, S259R, I391N, R487C** — none of these showed a robust
+   RMSD/RMSF or H-bond finding, but each now shows exactly one robust DRN
+   result at its own site (K139E and R140Q: local BC; S259R: local BC;
+   I391N: local CC; R487C: local EC). These are single-method, single-metric
+   findings and should be treated as provisional leads rather than strong
+   conclusions — the same caution applied to G99E's H-bond-only finding
+   before DRN data existed.
 
 **Retracted from earlier versions of this analysis:** S259R's local RMSF
 "amplification" claim (the two replicates actually disagree in direction once
@@ -235,24 +308,28 @@ replicate-disagreeing or noise-floor-bound excursions rather than one
 reproducible signal. However, its R378 site does show a robust local H-bond
 decrease (see above) — the first robust signal for this allele by any
 metric, though a narrower one (single site, single metric) than P428T or
-I328T's convergent multi-metric evidence. S259R remains the allele with no
-robust finding by any metric collected so far (RMSD, RMSF, or H-bond).
+I328T's convergent multi-metric evidence. S259R was the allele with no
+robust finding by any metric through Parts 1-2 (RMSD, RMSF, or H-bond); DRN
+now gives it its first robust finding (local BC increase at its own site),
+though this is a single-method result and should be treated with the same
+caution as the other single-metric DRN-only findings above.
 
 ## Next steps
 
-1. DRN analysis via MDM-TASK-web (betweenness, closeness, eigenvector
-   centrality), prioritizing the three uncertain-function alleles in this
-   order given the RMSD/RMSF/H-bond evidence so far: P428T and I328T first
-   (both have convergent multi-metric support), then T306S-R378K (one
-   narrow robust finding, at R378 only), then S259R (no robust finding yet
-   by any metric).
-2. G99E's new H-bond-only finding (robust local increase at its own site)
-   should be checked against DRN data before being treated as more than
-   provisional, since it is not yet corroborated by a second method.
-3. Once DRN data exists, request or approximate a proper reference-triplicate
-   3-SD threshold (the CYP3A4 paper's framework) rather than continuing to
-   rely on a 2-replicate noise floor, which is a workable but weaker
-   substitute.
-4. Re-run this same robustness check (`significance_check.py` /
-   `hbond_significance_check.py`) on DRN metrics once available, rather than
-   reverting to visual comparison.
+1. ~~DRN analysis via MDM-TASK-web~~ — done (Part 3, above). Headline result:
+   P428T and I328T's strong RMSD/RMSF/H-bond convergence does not extend to
+   DRN centrality (no robust finding at their own sites in BC/CC/EC), while
+   several alleles with no prior robust finding (K139E, R140Q, S259R, I391N,
+   R487C) each pick up exactly one robust DRN-only result, and M46V and G99E
+   strengthen with a second independent robust method.
+2. Request or approximate a proper reference-triplicate 3-SD threshold (the
+   CYP3A4 paper's framework) rather than continuing to rely on a 2-replicate
+   noise floor, which remains a workable but weaker substitute — this now
+   applies across all three analyses (RMSD/RMSF, H-bonds, DRN).
+3. Consider whether the single-method DRN-only findings (K139E, R140Q,
+   S259R, I391N, R487C) merit a follow-up look at the actual network
+   structure (e.g. which specific edges/neighbors drive the local centrality
+   shift) rather than resting on the summary centrality value alone, before
+   writing these up as findings in their own right.
+4. Decide on final reporting format/figures for all three parts (RMSD/RMSF,
+   H-bonds, DRN) for the supervision meeting write-up.

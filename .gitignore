@@ -25,3 +25,15 @@ CYP3A4_Genetic_Variant_Metabolism.png
 
 # GROMACS auto-backup files (e.g. #md_protein.tpr.1#)
 \#*\#
+
+# DRN per-frame network output (MD-TASK calc_network.py) -- ~900 files per
+# system, too many/large to track; only the final _mean.csv/_mean_*.cif
+# summaries are committed.
+*.dat
+
+# Protein-only PDB topologies used as calc_network.py input (regenerated
+# from md_protein_ref.gro via convert_to_pdb.sh, itself gitignored above)
+md_protein_ref.pdb
+
+# Cloned third-party tool (RUBi-ZA/MD-TASK), not project code
+MD-TASK/

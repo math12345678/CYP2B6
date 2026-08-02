@@ -175,10 +175,52 @@ existing robust RMSD/RMSF findings; K262R's RMSF rigidification does not
 have a matching robust H-bond effect. Full writeup in
 `METHODS_RESULTS_DISCUSSION.md`.
 
+## Dynamic residue network (DRN) analysis
+
+Per-residue betweenness (BC), closeness (CC), and eigenvector (EC) centrality
+computed with MD-TASK (`RUBi-ZA/MD-TASK`, `mdm-task-web` branch — RUBi's own
+tool), installed locally via `git clone -b mdm-task-web ...` +
+`conda env create -f environment.yml` (env `mdmtaskweb`, separate from the
+`cyp2b6` env). `calc_network.py` requires a PDB topology (`convert_to_pdb.sh`
+converts each system's `md_protein_ref.gro` via `gmx editconf`), and writes
+outputs to whatever the current working directory is regardless of any path
+prefix passed to it — `run_all_drn.py` runs each system with `cwd` set to
+that system's own folder to avoid output collisions. Centrality computed
+every 100 frames (~1 ns steps, 300 frames/system) across all 22 systems.
+
+**Heme node caveat:** the CB/CA-based network-node reduction does not fully
+exclude the heme cofactor. Confirmed via cross-reference against each
+system's `.cif` output (which carries the true residue number as
+`auth_seq_id`): CSV row N = GROMACS resid N, but resid 408 is heme's CM1
+component (it has an atom named "CB" in this force field), not a real amino
+acid — 462 real residues + 1 heme node = 463 total rows. `drn_significance_check.py`
+explicitly excludes resid 408 from both the global and local metrics.
+
+Run order: `convert_to_pdb.sh` → `run_all_drn.py` (batch driver, all 22
+systems) → `drn_significance_check.py` (same WT-replicate-noise-floor
+framework, applied to a global metric — mean centrality across all real
+residues — and a local metric — window-max value at each allele's own
+mutation site — for each of BC/CC/EC).
+
+**Results:** essentially no allele shows a robust *global* effect in any of
+the three metrics. At the *local* level: **P428T and I328T — the two
+alleles with the strongest prior convergent RMSD/RMSF/H-bond evidence — show
+no robust DRN finding at their own site in any of BC/CC/EC** (P428T has the
+largest-magnitude local deltas in the panel, but its two replicates disagree
+in direction on all three). Several alleles with no prior robust finding
+pick up exactly one robust DRN result at their own site: K139E, R140Q, S259R
+(local BC), I391N (local CC), R487C (local EC). M46V picks up two (local BC
+and CC), and G99E strengthens with a robust local BC increase alongside its
+existing H-bond finding. Only `*_mean.csv`/`*_mean_*.cif` summary files are
+committed (per-frame `.dat` output and the cloned `MD-TASK/` tool are
+gitignored). Full writeup in `METHODS_RESULTS_DISCUSSION.md`.
+
 ## Next steps (per July 29 meeting with Prof. Bishop and Shaylyn)
 
 1. ~~Finish RMSD (KDE) and RMSF (heatmap) figures, improve labeling~~ — done.
 2. ~~Hydrogen bond analysis~~ — done, see above.
-3. DRN analysis via MDM-TASK-web, prioritizing P428T and I328T (convergent
-   multi-metric evidence), then T306S-R378K (one narrow finding at R378),
-   then S259R (no robust finding yet by any metric).
+3. ~~DRN analysis via MDM-TASK-web~~ — done, see above.
+4. Decide on final reporting format/figures for all three parts for the
+   supervision meeting write-up; consider whether the single-metric DRN-only
+   findings (K139E, R140Q, S259R, I391N, R487C) warrant a deeper look at
+   network structure before being written up as standalone findings.
