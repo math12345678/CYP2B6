@@ -129,6 +129,28 @@ applied to each of BC, CC, and EC: a global metric (mean centrality across
 all real residues) and a local metric (window-max value in a +/-3 residue
 window at each allele's own mutation site).
 
+**Radius of gyration (Rg) and solvent-accessible surface area (SASA).**
+Following the handover document's recommended analyses (RMSD/RMSF, Rg, SASA,
+H-bonds, and several analyses not yet performed -- PCA, DCCM, conformational
+clustering, binding-pocket/channel analysis -- listed in Next steps), Rg
+(`gmx gyrate`) and SASA (`gmx sasa`) were computed for all 22 systems.
+Unlike RMSD/RMSF, which used the Backbone index group for consistency, Rg
+and SASA were computed on the Protein group (whole protein, all atoms):
+Backbone-only would omit side chains, which matters for both overall
+compactness and solvent-exposed surface, so the full protein is the
+standard choice for these two metrics specifically -- a deliberate,
+documented deviation from the Backbone convention used elsewhere, not an
+inconsistency. Rg is a whole-molecule scalar with no per-residue breakdown,
+so only a global metric applies (mean Rg over the trajectory). SASA has
+both a global metric (mean total SASA) and a local, per-residue metric
+(`gmx sasa -or`, window-max at +/-3 residues around each allele's own
+mutation site, the SASA analogue of the windowed RMSF/H-bond/DRN checks);
+the per-residue output has exactly 462 rows (one per real amino acid, no
+heme contamination of the kind found in the DRN dataset, since the
+"Protein" selection group excludes the heme cofactor entirely). The same
+replicate-noise-floor robustness framework was applied to both metrics via
+`rg_sasa_significance_check.py`.
+
 ## Results
 
 **Global stability (RMSD).** Using the robustness check described above
@@ -239,6 +261,36 @@ is reported as a genuine negative result rather than downplayed: at the
 network-centrality layer specifically, the two highest-priority alleles from
 Parts 1-2 do not show a reproducible signal at their own mutation site.
 
+**Radius of gyration and SASA.** At the global level, robust Rg *compaction*
+(more compact than WT) is seen in K139E, M46V, R140Q, P428T, and S259R.
+Robust global SASA *decrease* is seen in M46V, I391N, R140Q, S259R, and
+T306S-R378K (whole allele, not resolved to either individual site at the
+global level). At the local (per-residue, own-site window) level, robust
+SASA effects are: M46V (decrease), I391N (decrease), S259R (increase, in the
+opposite direction from its own global decrease), and T306S-R378K's R378
+site (increase).
+
+Two patterns stand out. First, **M46V** now has robust findings across four
+independent measures -- global RMSD compaction, local DRN BC and CC
+increases, Rg compaction, and both global and local SASA decrease -- the
+most convergent evidence of distributed, non-local stabilization of any
+allele in the panel, despite showing no RMSF or H-bond signal at its own
+site. Second, **S259R**, the allele with zero robust findings through Parts
+1-2, now has three robust findings across Rg/SASA (compaction, global SASA
+decrease, local SASA increase) in addition to its earlier DRN-only local BC
+finding -- and its own-site SASA increase moving opposite to its whole-
+protein SASA decrease is a real, specific pattern (a locally more exposed
+mutation site inside an overall more compact, less solvent-exposed protein)
+worth a closer look rather than a data artifact to wave away.
+
+P428T's robust Rg compaction is worth flagging alongside its already-
+established elevated global RMSD: these are not contradictory (RMSD
+measures deviation from a reference conformation; Rg measures compactness
+of whatever conformation is currently sampled), but it does mean P428T's
+picture is more complex than "more flexible than WT" alone -- it deviates
+more from the reference structure while adopting an overall more compact
+shape.
+
 ## Discussion
 
 Applying a real robustness check rather than visual comparison substantially
@@ -273,27 +325,42 @@ and noise-floor testing are:
    local stiffening is not explained by, or reflected in, either the
    H-bond or centrality data collected so far.
 5. **M46V** shows a robust global RMSD compaction/rigidification without a
-   corresponding local RMSF or H-bond effect at its own mutation site, but
-   now also shows robust local BC *and* CC increases at its own site — the
-   only allele with robust local hits in two of the three DRN metrics. This
-   is consistent with the earlier hypothesis that M46V's effect is
-   distributed/allosteric rather than localized to backbone flexibility
-   alone: an increase in local network centrality is plausible for a
-   stabilizing, connectivity-altering mutation that doesn't show up as an
-   RMSF or H-bond change at the site itself.
+   corresponding local RMSF or H-bond effect at its own mutation site, and
+   robust local BC *and* CC increases at its own site (the only allele with
+   robust local hits in two of the three DRN metrics). Rg/SASA now add
+   robust global Rg compaction and robust global *and* local SASA decrease —
+   four independent measures now converge on the same picture: a
+   distributed, non-local stabilizing/compacting effect, with no
+   corresponding RMSF or H-bond signal at the mutation site itself. This is
+   the most convergent multi-method case in the panel after P428T/I328T, and
+   arguably the cleanest example of an allosteric-type effect so far.
 6. **T306S-R378K**: its R378 site (not T306) continues to be the only part
    of this allele with robust findings: a local H-bond decrease (delta =
-   -0.571) and now also a robust global EC shift and a robust local EC
-   increase at the R378 site specifically. T306 shows no robust finding in
-   any metric across any of the three analyses. This narrows the case for
-   this allele's functional effect specifically to the R378 substitution.
-7. **K139E, R140Q, S259R, I391N, R487C** — none of these showed a robust
-   RMSD/RMSF or H-bond finding, but each now shows exactly one robust DRN
-   result at its own site (K139E and R140Q: local BC; S259R: local BC;
-   I391N: local CC; R487C: local EC). These are single-method, single-metric
-   findings and should be treated as provisional leads rather than strong
-   conclusions — the same caution applied to G99E's H-bond-only finding
-   before DRN data existed.
+   -0.571), a robust global and local EC increase at the R378 site
+   specifically, and now a robust local SASA increase at R378 too. T306
+   shows no robust finding in any metric across any of the four analyses.
+   The allele's global SASA (whole double mutant, not resolved by site) also
+   shows a robust decrease. This continues to narrow the case for this
+   allele's functional effect specifically to the R378 substitution.
+7. **K139E, R140Q, R487C** — no robust RMSD/RMSF or H-bond finding; each
+   shows exactly one robust DRN result at its own site (K139E and R140Q:
+   local BC; R487C: local EC). R140Q additionally now shows a robust global
+   Rg compaction. These remain single-network-metric findings (plus, for
+   R140Q, one global Rg result) and should be treated as provisional leads.
+8. **I391N** — no robust RMSD/RMSF or H-bond finding, one robust DRN result
+   (local CC), and now robust global and local SASA decreases — two
+   independent methods now agree on I391N showing a subtle compacting
+   effect, a step up from a single-metric provisional finding.
+9. **S259R** — the allele with zero robust findings through Parts 1-2, then
+   one DRN-only finding (local BC), now has three more: robust Rg
+   compaction, robust global SASA decrease, and a robust *local* SASA
+   *increase* at its own site — moving in the opposite direction from the
+   whole-protein SASA decrease. That specific pattern (a more solvent-
+   exposed mutation site sitting inside an overall more compact, less
+   exposed protein) is a real, reproducible signature worth investigating
+   further (e.g. whether the mutation site sits at a loop or surface patch
+   that locally unfolds/opens while the rest of the protein compacts),
+   rather than being dismissed as noise.
 
 **Retracted from earlier versions of this analysis:** S259R's local RMSF
 "amplification" claim (the two replicates actually disagree in direction once
@@ -327,9 +394,34 @@ caution as the other single-metric DRN-only findings above.
    noise floor, which remains a workable but weaker substitute — this now
    applies across all three analyses (RMSD/RMSF, H-bonds, DRN).
 3. Consider whether the single-method DRN-only findings (K139E, R140Q,
-   S259R, I391N, R487C) merit a follow-up look at the actual network
-   structure (e.g. which specific edges/neighbors drive the local centrality
-   shift) rather than resting on the summary centrality value alone, before
-   writing these up as findings in their own right.
-4. Decide on final reporting format/figures for all three parts (RMSD/RMSF,
-   H-bonds, DRN) for the supervision meeting write-up.
+   R487C) merit a follow-up look at the actual network structure (e.g.
+   which specific edges/neighbors drive the local centrality shift) rather
+   than resting on the summary centrality value alone, before writing these
+   up as findings in their own right.
+4. ~~Rg and SASA~~ — done (Part 4, above). Headline results: M46V now has
+   four independent convergent robust findings (RMSD, DRN-BC/CC, Rg, SASA),
+   the strongest distributed/allosteric case in the panel after P428T/I328T;
+   S259R goes from zero robust findings to four (DRN-BC plus Rg compaction,
+   global SASA decrease, and an opposite-direction local SASA increase at
+   its own site); I391N gains a second independent method (SASA) alongside
+   its DRN-only finding; P428T's new Rg compaction adds nuance (not
+   contradiction) to its established elevated-RMSD finding.
+5. Remaining analyses from the handover document's "Recommended Analyses"
+   list, still not started: PCA, DCCM (dynamic cross-correlation matrices),
+   conformational clustering, and binding pocket/substrate access channel
+   analysis. Conformational clustering and DSSP secondary-structure analysis
+   (not on the handover list, but core methods used in Shaylyn's own
+   predecessor thesis on this exact system) are also outstanding and would
+   let this project's clustering results be directly compared against her
+   prior thesis findings (she reported I328T, K262R, P428T, and R140Q as the
+   variants with the most cluster/structural deviation from WT).
+6. S259R's new local-vs-global SASA divergence (site more exposed while the
+   whole protein is more compact) is worth a closer, targeted look --
+   possibly via DSSP or a residue-level RMSF/SASA overlay at that specific
+   site -- rather than folding it into a generic future-analysis queue item.
+7. Request or approximate a proper reference-triplicate 3-SD threshold (the
+   CYP3A4 paper's framework) rather than continuing to rely on a 2-replicate
+   noise floor, which remains a workable but weaker substitute — this now
+   applies across all four analyses completed so far.
+8. Decide on final reporting format/figures for all four parts (RMSD/RMSF,
+   H-bonds, DRN, Rg/SASA) for the supervision meeting write-up.

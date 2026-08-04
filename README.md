@@ -215,12 +215,52 @@ existing H-bond finding. Only `*_mean.csv`/`*_mean_*.cif` summary files are
 committed (per-frame `.dat` output and the cloned `MD-TASK/` tool are
 gitignored). Full writeup in `METHODS_RESULTS_DISCUSSION.md`.
 
-## Next steps (per July 29 meeting with Prof. Bishop and Shaylyn)
+## Radius of gyration (Rg) and SASA analysis
+
+Per the handover document's "Recommended Analyses" list (RMSD/RMSF, Rg,
+SASA, and H-bonds under "Global stability"/"local structural effects" --
+several of which, PCA/DCCM/clustering/binding-pocket analysis, are still
+outstanding, see Next steps). Computed with `gmx gyrate` and `gmx sasa`
+(`run_all_rg_sasa.sh`, run from the terminal directly since GROMACS isn't
+available in the sandbox used for the Python-based analyses). Unlike
+RMSD/RMSF (Backbone group), Rg/SASA use the Protein group (whole protein,
+all atoms) -- side chains matter for both compactness and solvent-exposed
+surface, so Backbone-only would be the wrong choice here specifically.
+`rg_sasa_significance_check.py` applies the same WT-replicate-noise-floor
+framework: Rg has only a global metric (whole-molecule scalar); SASA has
+both global (mean total area) and local (per-residue, window-max at each
+allele's own site) metrics.
+
+**Results:** robust Rg compaction in K139E, M46V, R140Q, P428T, S259R.
+Robust global SASA decrease in M46V, I391N, R140Q, S259R, T306S-R378K.
+Robust local SASA effects: M46V and I391N (decrease), S259R and
+T306S-R378K's R378 site (increase). Two findings stand out: **M46V** now has
+four independent convergent robust results (RMSD compaction, DRN local
+BC/CC, Rg compaction, SASA decrease) -- the cleanest distributed/allosteric
+case in the panel besides P428T/I328T. **S259R**, which had zero robust
+findings through Parts 1-2, now has four (DRN local BC, Rg compaction,
+global SASA decrease, and a local SASA *increase* at its own site -- the
+opposite direction from the whole-protein decrease, a real and specific
+pattern worth a closer look, not noise). Full writeup in
+`METHODS_RESULTS_DISCUSSION.md`.
+
+## Next steps (per July 29 meeting with Prof. Bishop and Shaylyn, and the
+## handover document's Recommended Analyses)
 
 1. ~~Finish RMSD (KDE) and RMSF (heatmap) figures, improve labeling~~ — done.
 2. ~~Hydrogen bond analysis~~ — done, see above.
 3. ~~DRN analysis via MDM-TASK-web~~ — done, see above.
-4. Decide on final reporting format/figures for all three parts for the
-   supervision meeting write-up; consider whether the single-metric DRN-only
-   findings (K139E, R140Q, S259R, I391N, R487C) warrant a deeper look at
-   network structure before being written up as standalone findings.
+4. ~~Rg and SASA~~ — done, see above.
+5. Still outstanding from the handover document's Recommended Analyses:
+   PCA, DCCM, conformational clustering, binding pocket/substrate access
+   channel analysis. Conformational clustering and DSSP secondary-structure
+   analysis (Shaylyn's own predecessor thesis's core methods, not on the
+   handover list but directly comparable to her prior results) are also
+   outstanding.
+6. Consider whether the single-metric DRN-only findings (K139E, R140Q,
+   R487C) warrant a deeper look at network structure before being written up
+   as standalone findings.
+7. S259R's local-vs-global SASA divergence (own site more exposed while the
+   whole protein is more compact) deserves a targeted follow-up look.
+8. Decide on final reporting format/figures for all four completed parts for
+   the supervision meeting write-up.
