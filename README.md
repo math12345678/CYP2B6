@@ -244,6 +244,35 @@ opposite direction from the whole-protein decrease, a real and specific
 pattern worth a closer look, not noise). Full writeup in
 `METHODS_RESULTS_DISCUSSION.md`.
 
+## Conformational clustering
+
+Following Shaylyn Govender's predecessor MSc thesis on this same system
+(Chapter 4): AmberTools `cpptraj` hierarchical agglomerative clustering
+(average-linkage, 3 clusters), best-fit RMSD on backbone atoms
+(`@C,CA,N,O`) as the distance metric, every 10th frame (~3000 frames/system,
+same subsampling reasoning as DRN's `--step 100`). `cpptraj` cannot parse
+GROMACS `.tpr` directly (confirmed by a real failed run), so uses
+`md_protein_ref.pdb` (already generated for DRN) as topology instead.
+Deviation from Shaylyn's exact protocol, documented: her thesis also used
+heme Fe + "L-helix" as an additional distance metric, but the L-helix
+residue range wasn't recoverable from the available thesis text, so this
+run uses Backbone RMSD alone. `cluster_summary.py` applies the same
+WT-replicate-noise-floor framework to each system's dominant (largest)
+cluster's frame fraction, the same quantity in Shaylyn's Table 4.1.
+
+**Results:** the two WT replicates disagree sharply (dominant fraction 0.454
+vs. 0.808), giving a noise floor (0.354) larger than every allele's
+replicate-averaged delta. **No allele passes the robustness check for this
+metric** -- reported as a genuine null result, not evidence the underlying
+MD data lacks signal (RMSD/RMSF/H-bonds/DRN/Rg/SASA all found real effects
+in several of these alleles). The largest raw deltas (M46V 0.315, R140Q
+0.314, I328T 0.244) do overlap with alleles Shaylyn's thesis flagged
+independently (I328T, K262R, P428T, R140Q), which is a suggestive
+coincidence worth keeping in mind, but none of them clear this project's own
+noise floor and per-allele replicate agreement is inconsistent (P428T and
+S259R even have opposite-signed deltas between their own two replicates).
+Full writeup in `METHODS_RESULTS_DISCUSSION.md`.
+
 ## Next steps (per July 29 meeting with Prof. Bishop and Shaylyn, and the
 ## handover document's Recommended Analyses)
 
@@ -251,16 +280,16 @@ pattern worth a closer look, not noise). Full writeup in
 2. ~~Hydrogen bond analysis~~ — done, see above.
 3. ~~DRN analysis via MDM-TASK-web~~ — done, see above.
 4. ~~Rg and SASA~~ — done, see above.
-5. Still outstanding from the handover document's Recommended Analyses:
-   PCA, DCCM, conformational clustering, binding pocket/substrate access
-   channel analysis. Conformational clustering and DSSP secondary-structure
-   analysis (Shaylyn's own predecessor thesis's core methods, not on the
-   handover list but directly comparable to her prior results) are also
-   outstanding.
-6. Consider whether the single-metric DRN-only findings (K139E, R140Q,
+5. ~~Conformational clustering~~ — done, see above (genuine null result for
+   this metric with only 2 WT replicates).
+6. Still outstanding from the handover document's Recommended Analyses:
+   PCA, DCCM, binding pocket/substrate access channel analysis. DSSP
+   secondary-structure analysis (Shaylyn's predecessor thesis's other core
+   method, alongside clustering) is also outstanding.
+7. Consider whether the single-metric DRN-only findings (K139E, R140Q,
    R487C) warrant a deeper look at network structure before being written up
    as standalone findings.
-7. S259R's local-vs-global SASA divergence (own site more exposed while the
+8. S259R's local-vs-global SASA divergence (own site more exposed while the
    whole protein is more compact) deserves a targeted follow-up look.
-8. Decide on final reporting format/figures for all four completed parts for
+9. Decide on final reporting format/figures for all five completed parts for
    the supervision meeting write-up.

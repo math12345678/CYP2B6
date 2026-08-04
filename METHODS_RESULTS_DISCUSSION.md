@@ -151,6 +151,32 @@ heme contamination of the kind found in the DRN dataset, since the
 replicate-noise-floor robustness framework was applied to both metrics via
 `rg_sasa_significance_check.py`.
 
+**Conformational clustering.** Following Shaylyn Govender's predecessor MSc
+thesis on this same system (Chapter 4), conformational clustering was
+performed with AmberTools `cpptraj`: hierarchical agglomerative clustering
+(average-linkage), cut to 3 clusters, using best-fit RMSD on backbone atoms
+(`@C,CA,N,O`) as the distance metric. `cpptraj` cannot parse GROMACS `.tpr`
+topologies directly (confirmed by a real failed run: "Could not determine
+format of topology"), so `md_protein_ref.pdb` (the protein+heme-only PDB
+already generated for the DRN analysis) was used as the topology instead,
+matching `md_noWAT.xtc`'s atom composition exactly. Two deviations from her
+exact protocol are documented rather than silently assumed: (1) her thesis
+also used the heme Fe and "L-helix" as an additional distance metric, but
+the L-helix residue range isn't available in a form that could be reliably
+extracted from the thesis text, so this run uses Backbone RMSD alone,
+matching this project's established Backbone convention for RMSD/RMSF; (2)
+hierarchical clustering requires a full pairwise distance matrix (O(n^2)),
+which is intractable at the full 30001 frames/system, so every 10th frame
+was used (~3000 frames/system, the same subsampling reasoning as the DRN
+analysis's `--step 100`). `cluster_summary.py` parses each system's
+`cluster_<SYSTEM>_summary.dat` and applies the same replicate-noise-floor
+robustness framework used throughout, using each system's dominant
+(largest) cluster's frame fraction as the comparison metric -- a high value
+means the trajectory is dominated by one conformational state; a lower
+value split across multiple substantial clusters means more than one
+distinct conformation was sampled, the same quantity reported in Shaylyn's
+Table 4.1.
+
 ## Results
 
 **Global stability (RMSD).** Using the robustness check described above
@@ -291,6 +317,26 @@ picture is more complex than "more flexible than WT" alone -- it deviates
 more from the reference structure while adopting an overall more compact
 shape.
 
+**Conformational clustering.** The two WT replicates disagree sharply on
+dominant-cluster-fraction (0.454 vs. 0.808 -- WT_2 is dominated by a single
+conformational state nearly twice as strongly as WT), giving a noise floor
+(0.354) larger than every single allele's replicate-averaged delta from WT.
+**No allele passes the robustness check for this metric.** M46V (0.315),
+R140Q (0.314), and I328T (0.244) have the largest raw deltas, and all three
+happen to overlap with alleles Shaylyn's thesis flagged as showing the most
+cluster/structural deviation (I328T, K262R, P428T, R140Q) -- but none of
+these deltas clears this project's own noise floor, and per-allele
+replicate agreement is inconsistent (e.g. P428T and S259R have *opposite-
+signed* deltas between their own two replicates). This is reported as a
+genuine null result for this specific metric rather than cherry-picked into
+a positive finding: with only two WT replicates, a single hierarchical
+clustering run's dominant-cluster fraction is evidently too sensitive to
+trajectory-specific sampling noise to support any robust per-allele
+conclusion here. This does not mean the underlying MD data lacks signal --
+RMSD/RMSF/H-bonds/DRN/Rg/SASA all found robust effects in several of these
+same alleles -- it means this particular clustering metric, run this way,
+isn't discriminating enough given the available replicate count.
+
 ## Discussion
 
 Applying a real robustness check rather than visual comparison substantially
@@ -406,22 +452,30 @@ caution as the other single-metric DRN-only findings above.
    its own site); I391N gains a second independent method (SASA) alongside
    its DRN-only finding; P428T's new Rg compaction adds nuance (not
    contradiction) to its established elevated-RMSD finding.
-5. Remaining analyses from the handover document's "Recommended Analyses"
+5. ~~Rg and SASA~~ / ~~conformational clustering~~ — done (Parts 4-5, above).
+   Clustering headline: with only 2 WT replicates, dominant-cluster-fraction
+   is too noisy a metric to call any allele robust (noise floor 0.354 larger
+   than every allele's delta), despite the largest raw deltas (M46V, R140Q,
+   I328T) overlapping with alleles Shaylyn's thesis flagged independently.
+   Reported as a genuine null result for this metric, not evidence the
+   underlying data lacks signal (it doesn't -- see the other five analyses).
+6. Remaining analyses from the handover document's "Recommended Analyses"
    list, still not started: PCA, DCCM (dynamic cross-correlation matrices),
-   conformational clustering, and binding pocket/substrate access channel
-   analysis. Conformational clustering and DSSP secondary-structure analysis
-   (not on the handover list, but core methods used in Shaylyn's own
-   predecessor thesis on this exact system) are also outstanding and would
-   let this project's clustering results be directly compared against her
-   prior thesis findings (she reported I328T, K262R, P428T, and R140Q as the
-   variants with the most cluster/structural deviation from WT).
-6. S259R's new local-vs-global SASA divergence (site more exposed while the
+   and binding pocket/substrate access channel analysis. DSSP secondary-
+   structure analysis (not on the handover list, but a core method used
+   alongside clustering in Shaylyn's predecessor thesis) is also outstanding.
+7. If more WT replicates become available at any point, re-run
+   `cluster_summary.py`'s robustness check -- a 2-replicate noise floor is
+   an especially weak substitute specifically for the clustering metric
+   (see above), more so than for the scalar/per-residue metrics elsewhere
+   in this project.
+8. S259R's local-vs-global SASA divergence (site more exposed while the
    whole protein is more compact) is worth a closer, targeted look --
    possibly via DSSP or a residue-level RMSF/SASA overlay at that specific
    site -- rather than folding it into a generic future-analysis queue item.
-7. Request or approximate a proper reference-triplicate 3-SD threshold (the
+9. Request or approximate a proper reference-triplicate 3-SD threshold (the
    CYP3A4 paper's framework) rather than continuing to rely on a 2-replicate
    noise floor, which remains a workable but weaker substitute — this now
-   applies across all four analyses completed so far.
-8. Decide on final reporting format/figures for all four parts (RMSD/RMSF,
-   H-bonds, DRN, Rg/SASA) for the supervision meeting write-up.
+   applies across all five analyses completed so far.
+10. Decide on final reporting format/figures for all five parts (RMSD/RMSF,
+    H-bonds, DRN, Rg/SASA, clustering) for the supervision meeting write-up.

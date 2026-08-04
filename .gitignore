@@ -37,3 +37,15 @@ md_protein_ref.pdb
 
 # Cloned third-party tool (RUBi-ZA/MD-TASK), not project code
 MD-TASK/
+
+# Clustering (cpptraj) output is small and useful -- un-ignore from the
+# blanket *.dat rule above (which exists for the much larger DRN per-frame
+# output).
+!cluster_*_summary.dat
+!cluster_*_info.dat
+!cluster_*_assignments.dat
+!cluster_*_rmsd.dat
+
+# Auto-generated cpptraj input scripts, regenerated fresh by
+# run_all_clustering.sh each run -- not worth tracking.
+cluster_*.in

@@ -1,0 +1,4 @@
+#Cluster   Frames     Frac  AvgDist    Stdev Centroid AvgCDist
+       0     1924    0.641    1.304    0.172     1837    2.171
+       1     1053    0.351    1.444    0.279      851    1.921
+       2       24    0.008    1.280    0.241       12    2.179
