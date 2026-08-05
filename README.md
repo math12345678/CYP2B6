@@ -273,6 +273,41 @@ noise floor and per-allele replicate agreement is inconsistent (P428T and
 S259R even have opposite-signed deltas between their own two replicates).
 Full writeup in `METHODS_RESULTS_DISCUSSION.md`.
 
+## Secondary structure (DSSP)
+
+Following Shaylyn Govender's predecessor thesis (Chapter 4, second half).
+First attempt used AmberTools `cpptraj`'s `secstruct` command, but this
+produced unusable output: near-zero helix/sheet content across every residue
+in every system, implausible for a heavily alpha-helical P450. Traced to
+broken backbone bonding inference in `md_protein_ref.pdb` (this is a GROMACS
+simulation with no AMBER prmtop, so `cpptraj` had to guess bonds from atom
+distances, and got peptide-bond connectivity wrong somewhere). Switched to
+GROMACS's own `gmx dssp` (`run_all_dssp_gmx.sh`, group 1/"Protein"), which
+fixes the bonding issue and also exactly matches Shaylyn's original method.
+Output is one line/frame, one DSSP letter code/residue (H/G/I helix, E/B
+strand, T/S/P turn-ish, ~ coil, = heme gap). `dssp_summary.py` reduces this
+to a per-residue "ordered secondary structure" fraction (H+G+I+E+B) and
+writes a small per-system CSV (`dssp_<SYSTEM>_orderedss.csv`) rather than
+tracking the full ~14MB/system per-frame matrix; applies the same
+WT-replicate-noise-floor framework (global: mean across all 463 residues;
+local: window-max at each allele's own mutation site).
+
+**Results:** no allele passes the *global* robustness check (WT noise floor
+0.0208, larger than every allele's delta) — expected, a single point
+mutation shouldn't move the whole-protein fold balance. At the *local*
+(own-site) level, three alleles pass: **M46V** (decrease, -0.180 — its
+first-ever effect localized to the mutation site itself, on top of four
+existing distributed/global findings), **I391N** (increase, +0.464, the
+largest local DSSP effect in the panel — a third independent method now
+agreeing I391N has a real local effect), and **K262R** (increase, +0.016,
+smaller but clears its own tight noise floor — directionally consistent with
+its existing robust RMSF rigidification at the same site). T306S-R378K's
+T306 site also passes (decrease, -0.046); R378 does not. Several alleles show
+large raw local deltas (G99E, R140Q, P428T) but fail because their two
+replicates move in opposite directions at that window — the same failure
+pattern already seen for P428T at the DRN layer. Full writeup in
+`METHODS_RESULTS_DISCUSSION.md`.
+
 ## Next steps (per July 29 meeting with Prof. Bishop and Shaylyn, and the
 ## handover document's Recommended Analyses)
 
@@ -282,14 +317,14 @@ Full writeup in `METHODS_RESULTS_DISCUSSION.md`.
 4. ~~Rg and SASA~~ — done, see above.
 5. ~~Conformational clustering~~ — done, see above (genuine null result for
    this metric with only 2 WT replicates).
-6. Still outstanding from the handover document's Recommended Analyses:
-   PCA, DCCM, binding pocket/substrate access channel analysis. DSSP
-   secondary-structure analysis (Shaylyn's predecessor thesis's other core
-   method, alongside clustering) is also outstanding.
+6. ~~DSSP secondary structure analysis~~ — done, see above (after fixing a
+   broken cpptraj-based first attempt). Still outstanding from the handover
+   document's Recommended Analyses: PCA, DCCM, binding pocket/substrate
+   access channel analysis.
 7. Consider whether the single-metric DRN-only findings (K139E, R140Q,
    R487C) warrant a deeper look at network structure before being written up
    as standalone findings.
 8. S259R's local-vs-global SASA divergence (own site more exposed while the
    whole protein is more compact) deserves a targeted follow-up look.
-9. Decide on final reporting format/figures for all five completed parts for
+9. Decide on final reporting format/figures for all six completed parts for
    the supervision meeting write-up.

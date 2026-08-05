@@ -49,3 +49,12 @@ MD-TASK/
 # Auto-generated cpptraj input scripts, regenerated fresh by
 # run_all_clustering.sh each run -- not worth tracking.
 cluster_*.in
+
+# gmx dssp per-frame secondary structure output (run_all_dssp_gmx.sh).
+# Superseded the earlier cpptraj secstruct approach, which produced
+# unusable output (broken backbone connectivity in md_protein_ref.pdb ->
+# near-zero helix/sheet content everywhere). Per-frame matrix files are
+# large (~14MB/system); only the small derived per-residue summaries
+# (dssp_*_orderedss.csv, ~5KB/system, written by dssp_summary.py) are
+# tracked.
+dssp_*.dat

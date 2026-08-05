@@ -177,6 +177,39 @@ value split across multiple substantial clusters means more than one
 distinct conformation was sampled, the same quantity reported in Shaylyn's
 Table 4.1.
 
+**Secondary structure (DSSP).** Following the second half of Shaylyn
+Govender's predecessor thesis Chapter 4 ("Analysis through Clustering and
+DSSP"), per-residue secondary structure was assigned via the Kabsch-Sander
+algorithm. An initial attempt used AmberTools `cpptraj`'s built-in
+`secstruct` command (already set up for the clustering step above), but this
+produced unusable results: every one of the 463 real residues across all 22
+systems showed near-zero Alpha/3-10/Extended/Bridge/Pi content, with almost
+everything assigned to the generic "Bend" category — implausible for a
+heavily alpha-helical P450 like CYP2B6. The root cause was traced to
+`md_protein_ref.pdb`'s bonding, which `cpptraj` infers from atom distances
+rather than reading from a real topology (this system has no AMBER prmtop —
+it was simulated in GROMACS, `md.tpr`/`cyp2b6_GMX.top`); this likely broke or
+missed backbone peptide-bond connectivity between some residues, preventing
+`cpptraj`'s H-bond-ladder-based helix/sheet detection from working. This was
+caught by a sanity check (a real protein's DSSP output should show
+substantial helix/sheet content, not none), not assumed to be a valid null
+result. The fix was to switch to GROMACS's own `gmx dssp` (`run_all_dssp_gmx.sh`,
+group 1/"Protein"), which both resolves the bonding issue (reads the correct
+GROMACS topology directly) and exactly matches Shaylyn's original method,
+making these results directly comparable to her thesis. `gmx dssp -o`
+produces one line per frame, one character per residue (standard DSSP
+one-letter codes: H/G/I = alpha/3-10/pi helix, E/B = strand/bridge, T/S/P =
+turn/bend/polyproline, ~ = coil, = = unassignable gap — heme's CM1 at resid
+408 falls in this last category and is excluded). `dssp_summary.py` computes,
+per residue, the fraction of the 30001-frame trajectory spent in any defined
+helix or strand/bridge state ("ordered secondary structure" = H+G+I+E+B),
+writing a small per-system per-residue CSV (`dssp_<SYSTEM>_orderedss.csv`)
+rather than tracking the full ~14MB/system per-frame matrix in git. The same
+replicate-noise-floor robustness framework used throughout was applied: a
+global metric (mean ordered-SS fraction across all 463 residues) and a local
+metric (window-max |delta| in a +/-3 residue window at each allele's own
+mutation site).
+
 ## Results
 
 **Global stability (RMSD).** Using the robustness check described above
@@ -337,6 +370,47 @@ RMSD/RMSF/H-bonds/DRN/Rg/SASA all found robust effects in several of these
 same alleles -- it means this particular clustering metric, run this way,
 isn't discriminating enough given the available replicate count.
 
+**Secondary structure (DSSP).** At the global level (mean ordered-SS fraction
+across all 463 residues), the WT rep1-vs-rep2 noise floor is 0.0208 — larger
+than every single allele's replicate-averaged delta (all under 0.013).
+**No allele passes the global robustness check.** This is consistent with
+expectation: a single point mutation is unlikely to shift the whole-protein
+fold-element balance measurably, and no earlier analysis (RMSD, RMSF,
+H-bonds, DRN, Rg/SASA, clustering) found a robust *global* structural
+collapse or expansion either.
+
+At the local (own mutation-site window) level, three alleles pass the
+robustness check with large, clearly-signed effects: **M46V** (delta =
+-0.180, both replicates decreased — a robust local loss of ordered
+secondary structure at its own site), **I391N** (delta = +0.464, both
+replicates increased — a robust local *gain* of ordered structure), and
+**K262R** (delta = +0.016, both replicates increased, smaller magnitude but
+still clears its own tight noise floor of 0.004). T306S-R378K's T306 site
+also passes (delta = -0.046, both replicates decreased), while its R378 site
+does not. No other allele's own site passes; several show large raw local
+deltas (G99E +0.240, R140Q +0.234, P428T +0.349) but fail because their two
+replicates move in opposite directions at that window (e.g. P428T: rep1
++0.746, rep2 -0.047) — the same failure pattern already seen for P428T at
+the DRN layer.
+
+M46V's local ordered-SS *decrease* is a new, independent finding at its own
+mutation site — notable because M46V previously showed no robust RMSF or
+H-bond effect at that same site, only robust *global* RMSD/Rg/SASA
+compaction and robust *local* DRN (BC, CC) increases elsewhere in the
+protein. This adds a fifth independent measure to M46V's case, and is the
+first of the five to show a robust effect *at the mutation site itself*
+rather than only in a distributed/global sense — a modest local unfolding
+event co-occurring with (not necessarily causing) the protein-wide
+compaction. I391N's local ordered-SS *increase* is likewise a new finding at
+its own site, adding to its existing robust global/local SASA decreases —
+three independent methods now agree I391N has some real, if subtle, local
+structural effect. K262R's local ordered-SS increase adds a fourth angle on
+a site that already showed the panel's largest robust local RMSF
+rigidification, though no robust H-bond or DRN effect there; a residue
+locally stiffening (RMSF) while gaining defined secondary structure (DSSP)
+is at least directionally consistent, even though the two metrics were not
+designed to move together.
+
 ## Discussion
 
 Applying a real robustness check rather than visual comparison substantially
@@ -369,7 +443,10 @@ and noise-floor testing are:
    corresponding global RMSD effect or a robust local H-bond effect, and
    without a robust DRN finding at its own site either — a mutation whose
    local stiffening is not explained by, or reflected in, either the
-   H-bond or centrality data collected so far.
+   H-bond or centrality data collected so far. DSSP now adds a robust local
+   ordered-secondary-structure *increase* at the same site (smaller
+   magnitude, but real), directionally consistent with the RMSF
+   rigidification even though the two methods aren't formally linked.
 5. **M46V** shows a robust global RMSD compaction/rigidification without a
    corresponding local RMSF or H-bond effect at its own mutation site, and
    robust local BC *and* CC increases at its own site (the only allele with
@@ -377,9 +454,12 @@ and noise-floor testing are:
    robust global Rg compaction and robust global *and* local SASA decrease —
    four independent measures now converge on the same picture: a
    distributed, non-local stabilizing/compacting effect, with no
-   corresponding RMSF or H-bond signal at the mutation site itself. This is
-   the most convergent multi-method case in the panel after P428T/I328T, and
-   arguably the cleanest example of an allosteric-type effect so far.
+   corresponding RMSF or H-bond signal at the mutation site itself. DSSP now
+   adds a fifth measure and, notably, the first one that IS local to the
+   mutation site itself: a robust local ordered-secondary-structure
+   *decrease*, meaning M46V shows some real local unfolding right where the
+   protein-wide compaction is also happening — a more complete picture than
+   "purely allosteric/distributed" alone.
 6. **T306S-R378K**: its R378 site (not T306) continues to be the only part
    of this allele with robust findings: a local H-bond decrease (delta =
    -0.571), a robust global and local EC increase at the R378 site
@@ -394,8 +474,10 @@ and noise-floor testing are:
    Rg compaction. These remain single-network-metric findings (plus, for
    R140Q, one global Rg result) and should be treated as provisional leads.
 8. **I391N** — no robust RMSD/RMSF or H-bond finding, one robust DRN result
-   (local CC), and now robust global and local SASA decreases — two
-   independent methods now agree on I391N showing a subtle compacting
+   (local CC), and robust global and local SASA decreases — and now a robust
+   local ordered-secondary-structure *increase* at its own site by DSSP,
+   the largest-magnitude local DSSP effect in the panel. Three independent
+   methods now agree I391N has a real, subtle local structural/compacting
    effect, a step up from a single-metric provisional finding.
 9. **S259R** — the allele with zero robust findings through Parts 1-2, then
    one DRN-only finding (local BC), now has three more: robust Rg
@@ -459,11 +541,21 @@ caution as the other single-metric DRN-only findings above.
    I328T) overlapping with alleles Shaylyn's thesis flagged independently.
    Reported as a genuine null result for this metric, not evidence the
    underlying data lacks signal (it doesn't -- see the other five analyses).
-6. Remaining analyses from the handover document's "Recommended Analyses"
-   list, still not started: PCA, DCCM (dynamic cross-correlation matrices),
-   and binding pocket/substrate access channel analysis. DSSP secondary-
-   structure analysis (not on the handover list, but a core method used
-   alongside clustering in Shaylyn's predecessor thesis) is also outstanding.
+6. ~~DSSP secondary structure analysis~~ — done (Part 6, above), after
+   discovering and fixing a broken first attempt (cpptraj's `secstruct`
+   produced near-zero helix/sheet content everywhere due to bad backbone
+   connectivity inference from a distance-only PDB; switched to `gmx dssp`,
+   which also matches Shaylyn's exact method). Headline: no allele shows a
+   robust *global* effect (expected), but three show robust *local* effects
+   at their own mutation site: M46V (ordered-SS decrease, its first-ever
+   effect localized to the mutation site itself, adding to its four existing
+   distributed/global findings), I391N (ordered-SS increase, a third
+   independent method now agreeing on a real local effect), and K262R
+   (ordered-SS increase, directionally consistent with its existing robust
+   RMSF rigidification at the same site). Remaining analyses from the
+   handover document's "Recommended Analyses" list, still not started: PCA,
+   DCCM (dynamic cross-correlation matrices), and binding pocket/substrate
+   access channel analysis.
 7. If more WT replicates become available at any point, re-run
    `cluster_summary.py`'s robustness check -- a 2-replicate noise floor is
    an especially weak substitute specifically for the clustering metric
