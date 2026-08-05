@@ -50,6 +50,17 @@ MD-TASK/
 # run_all_clustering.sh each run -- not worth tracking.
 cluster_*.in
 
+# PCA eigenvectors (binary, run_all_pca_dccm.sh) and DCCM raw covariance
+# matrix (ascii but large, ~15-20MB/system for 463 C-alpha atoms) --
+# eigenvalue spectra and PC1/PC2 projections (small) are tracked; the
+# per-residue-pair correlation summary from these is written by
+# pca_dccm_summary.py and tracked separately.
+eigenvec_*.trr
+eigenvec_ca_*.trr
+covar_*.dat
+average.pdb
+covar.log
+
 # gmx dssp per-frame secondary structure output (run_all_dssp_gmx.sh).
 # Superseded the earlier cpptraj secstruct approach, which produced
 # unusable output (broken backbone connectivity in md_protein_ref.pdb ->

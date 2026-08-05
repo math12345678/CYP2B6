@@ -210,6 +210,46 @@ global metric (mean ordered-SS fraction across all 463 residues) and a local
 metric (window-max |delta| in a +/-3 residue window at each allele's own
 mutation site).
 
+**Principal component analysis (PCA) and dynamic cross-correlation matrix
+(DCCM).** Following the handover document's remaining "Recommended
+Analyses," both were computed from GROMACS's `gmx covar` covariance-matrix
+machinery, but on different atom selections for a documented reason: PCA
+used the Backbone group (matching this project's RMSD/RMSF convention) via
+`gmx covar` + `gmx anaeig` (least-squares fit and covariance/eigenvector
+calculation both on Backbone), giving the eigenvalue spectrum (variance
+captured by each collective motion, descending) and a PC1/PC2 trajectory
+projection. DCCM used the C-alpha group specifically (462 atoms = 462 real
+residues; heme has no atom literally named "CA," so it is automatically and
+completely excluded from this group without any manual exclusion step, a
+cleaner situation than some earlier per-residue datasets in this project
+that did include a heme placeholder row), fit on Backbone first to remove
+rigid-body translation/rotation (`-ascii` full covariance matrix output).
+`pca_dccm_summary.py` reduces the raw (3x462)^2 ascii covariance matrix to
+a standard 462x462 residue-residue correlation matrix (`C_ij =
+trace(Cov_ij) / sqrt(trace(Cov_ii)*trace(Cov_jj))`) entirely in memory --
+the full matrix is not written to disk, only derived summary statistics,
+consistent with this project's practice of tracking small summaries rather
+than large raw outputs. Two PCA metrics (PC1 eigenvalue, PC1 variance
+fraction) and two DCCM metrics (global mean |correlation| across all
+residue pairs; local mean |correlation| between each allele's own mutation
+site and every residue more than 3 positions away, excluding trivially-
+correlated backbone neighbors) were each run through the same replicate-
+noise-floor robustness framework used throughout.
+
+A residue-numbering subtlety required care here: the C-alpha group (462
+atoms) is numbered contiguously 1-462 with no gap at the heme's position,
+unlike the 463/464-row datasets elsewhere in this project (DRN, DSSP) whose
+numbering runs 1-463 through a heme placeholder at resid 408. Any mutation
+site above resid 408 needs 1 subtracted before indexing into the C-alpha
+array; of this project's sites, only R487C (resid 459) is affected
+(T306S-R378K's sites, 278 and 350, are both below 408). This adjustment is
+applied via a small helper function and documented in-script. Checking this
+also surfaced a genuine bug in the earlier Rg/SASA local-metric script
+(`rg_sasa_significance_check.py`), which was not making this adjustment;
+fixed alongside this work (see Next steps) -- re-running confirmed no
+conclusions actually changed as a result, but the underlying indexing logic
+was wrong and has been corrected.
+
 ## Results
 
 **Global stability (RMSD).** Using the robustness check described above
@@ -411,6 +451,50 @@ locally stiffening (RMSF) while gaining defined secondary structure (DSSP)
 is at least directionally consistent, even though the two metrics were not
 designed to move together.
 
+**PCA and DCCM.** Unlike clustering (Part 5), which found no robust signal
+for any allele, PCA and DCCM are the most productive of the "essential
+dynamics" analyses run so far. **PC1 eigenvalue** (how much variance the
+single dominant collective motion captures) shows a robust decrease
+(more rigid dominant mode) in K139E, M46V, I391N, R140Q, and S259R, and a
+robust increase in G99E, with T306S-R378K also robust (increase). **PC1
+variance fraction** (how dominant that one mode is relative to all others)
+shows a robust decrease in M46V, I391N, and R140Q specifically -- a
+stronger, more specific finding than the eigenvalue metric alone, since a
+lower fraction means motion is genuinely more evenly distributed across
+multiple modes, not just globally smaller.
+
+At the **DCCM global** level (mean |correlation| across the whole protein),
+robust increases in overall coupling are seen in I328T, K262R, P428T, and
+T306S-R378K, and a robust decrease in M46V and S259R. At the **DCCM local**
+level (mutation site's long-range coupling to the rest of the protein,
+excluding trivial backbone neighbors), only three alleles pass: I328T
+(increase), K262R (decrease), and R487C (increase) -- notably, most alleles
+with large raw local deltas (G99E, M46V, P428T, T306S-R378K) fail because
+their replicates disagree in direction at that specific site, the same
+failure pattern already seen repeatedly at the DRN layer.
+
+Several convergences stand out. **M46V** now shows a sixth and seventh
+independent robust finding: PC1 eigenvalue decrease, PC1 fraction decrease,
+and DCCM global decrease -- all three pointing the same direction (reduced,
+more evenly-distributed motion; lower overall residue-residue coupling),
+reinforcing its position as the most convergent, clearly rigidifying/
+compacting allele in the panel, though still without a robust *local* DCCM
+signal at its own site (consistent with its DSSP finding being the only
+one localized to the mutation site itself). **I328T** and **K262R** both
+now show robust findings at BOTH the DCCM global and DCCM local level with
+the same sign in each case (I328T: increase/increase; K262R: decrease/
+decrease) -- the first time either of these two alleles shows a *local*,
+mutation-site-specific network effect with this much internal consistency;
+K262R in particular now has independent, direction-consistent evidence
+across RMSF (local rigidification), DSSP (local ordered-SS increase), and
+DCCM (local coupling decrease), a genuinely convergent multi-method local
+story despite showing no DRN or H-bond signal at that same site. **R487C**
+picks up its second robust local finding (DCCM, alongside its existing DRN
+EC finding) -- both indicate increased local network engagement at its own
+site, though see the residue-numbering caveat above regarding this
+specific allele's site index. **R140Q** and **I391N** both add a robust
+PC1-fraction decrease to their existing single- or dual-metric profiles.
+
 ## Discussion
 
 Applying a real robustness check rather than visual comparison substantially
@@ -446,7 +530,13 @@ and noise-floor testing are:
    H-bond or centrality data collected so far. DSSP now adds a robust local
    ordered-secondary-structure *increase* at the same site (smaller
    magnitude, but real), directionally consistent with the RMSF
-   rigidification even though the two methods aren't formally linked.
+   rigidification even though the two methods aren't formally linked. DCCM
+   now adds robust findings at BOTH the global (increase) and local
+   (decrease) level, the local one directly at K262R's own mutation site --
+   this is now the most internally consistent multi-method *local* case in
+   the panel (RMSF rigidification, DSSP ordered-SS increase, DCCM local
+   coupling decrease, all pointing toward a genuinely stiffer, more
+   locally-isolated residue), despite no DRN or H-bond signal there.
 5. **M46V** shows a robust global RMSD compaction/rigidification without a
    corresponding local RMSF or H-bond effect at its own mutation site, and
    robust local BC *and* CC increases at its own site (the only allele with
@@ -459,7 +549,14 @@ and noise-floor testing are:
    mutation site itself: a robust local ordered-secondary-structure
    *decrease*, meaning M46V shows some real local unfolding right where the
    protein-wide compaction is also happening — a more complete picture than
-   "purely allosteric/distributed" alone.
+   "purely allosteric/distributed" alone. PCA and DCCM now add a sixth and
+   seventh: robust PC1 eigenvalue decrease, robust PC1 variance fraction
+   decrease, and robust DCCM global decrease — all three global/distributed
+   measures again, all pointing the same direction (less, more evenly-spread
+   motion; lower overall coupling), with still no robust *local* DCCM
+   signal at its own site. M46V is now the clearest, most convergent
+   allosteric-type case in the panel, seven independent measures deep, with
+   exactly one of those seven (DSSP) localized to the mutation site itself.
 6. **T306S-R378K**: its R378 site (not T306) continues to be the only part
    of this allele with robust findings: a local H-bond decrease (delta =
    -0.571), a robust global and local EC increase at the R378 site
@@ -552,10 +649,29 @@ caution as the other single-metric DRN-only findings above.
    distributed/global findings), I391N (ordered-SS increase, a third
    independent method now agreeing on a real local effect), and K262R
    (ordered-SS increase, directionally consistent with its existing robust
-   RMSF rigidification at the same site). Remaining analyses from the
-   handover document's "Recommended Analyses" list, still not started: PCA,
-   DCCM (dynamic cross-correlation matrices), and binding pocket/substrate
-   access channel analysis.
+   RMSF rigidification at the same site).
+7. ~~PCA and DCCM~~ — done (Part 7, above). Headline: unlike clustering,
+   these are highly productive -- M46V picks up two more global convergent
+   findings (sixth/seventh independent measure); K262R becomes the most
+   internally-consistent *local* multi-method case in the panel (RMSF,
+   DSSP, and DCCM local all agree at its own site); I328T gets its first
+   robust DRN-layer-style local finding via DCCM (global+local both
+   increase); R487C gets a second robust local finding. Remaining from the
+   handover document's "Recommended Analyses" list: binding pocket/
+   substrate access channel analysis.
+8. ~~Double-check the R487C local-metric residue indexing in
+   rg_sasa_significance_check.py~~ — done and fixed. `load_sasa_res` was
+   silently dropping `gmx sasa -or`'s own resid column and assuming
+   contiguous 1-based array indexing; the file's real resid column skips
+   408 (heme, confirmed directly: `sasa_res_WT.xvg` jumps "407 ... 409"
+   with no row for 408), so any site above 408 (only R487C, resid 459, in
+   this project) was being read from the wrong array position -- a real
+   off-by-one bug, not just a theoretical concern. Fixed by looking up by
+   actual resid via a dict instead of by array position. Re-ran the full
+   local SASA check after the fix: every allele's ROBUST/non-ROBUST
+   conclusion is unchanged, including R487C's (still correctly
+   non-robust) -- so no retraction is needed here, but the underlying code
+   was wrong and is now fixed for future runs/re-analysis.
 7. If more WT replicates become available at any point, re-run
    `cluster_summary.py`'s robustness check -- a 2-replicate noise floor is
    an especially weak substitute specifically for the clustering metric

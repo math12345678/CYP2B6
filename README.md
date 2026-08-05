@@ -308,6 +308,51 @@ replicates move in opposite directions at that window — the same failure
 pattern already seen for P428T at the DRN layer. Full writeup in
 `METHODS_RESULTS_DISCUSSION.md`.
 
+## PCA and DCCM
+
+Following the handover document's remaining "Recommended Analyses": PCA via
+`gmx covar` + `gmx anaeig` on the Backbone group (matching this project's
+RMSD/RMSF convention); DCCM via `gmx covar -ascii` on the C-alpha group
+specifically (462 atoms, no heme -- heme has no atom named "CA," so it's
+automatically excluded from this group with no manual step needed), fit on
+Backbone first to remove rigid-body motion. `run_all_pca_dccm.sh` batches
+both across all 22 systems; `pca_dccm_summary.py` reduces the raw ascii
+covariance matrix to a 462x462 residue-residue correlation matrix in
+memory (not written to disk) and applies the same WT-replicate-noise-floor
+framework to PC1 eigenvalue, PC1 variance fraction, DCCM global mean
+|correlation|, and DCCM local mean |correlation| at each allele's own site
+(excluding trivially-correlated backbone neighbors within 3 residues).
+
+A residue-numbering subtlety: the C-alpha group has no gap at the heme's
+position (unlike the DRN/DSSP datasets, numbered 1-463 through a heme
+placeholder at resid 408), so any mutation site above 408 needs 1
+subtracted before array lookup — only R487C (resid 459) is affected.
+Checking this surfaced a genuine pre-existing bug in
+`rg_sasa_significance_check.py` (it silently ignored `gmx sasa -or`'s own
+resid column, which really does skip 408, and assumed contiguous 1-based
+indexing instead) — fixed; re-running confirmed no conclusions actually
+changed, but the underlying logic was wrong and is now corrected for future
+re-analysis.
+
+**Results:** unlike clustering, this pair of analyses is highly productive.
+PC1 eigenvalue shows a robust decrease in K139E, M46V, I391N, R140Q, S259R
+(more rigid dominant motion) and increase in G99E, T306S-R378K. PC1
+variance fraction (a stronger, more specific version of the same idea)
+shows a robust decrease in M46V, I391N, R140Q specifically. DCCM global
+shows robust increases in I328T, K262R, P428T, T306S-R378K and decreases in
+M46V, S259R. DCCM local (own mutation site) passes for only three alleles:
+I328T (increase), K262R (decrease), R487C (increase) -- most other large raw
+deltas fail because the two replicates disagree in direction at that exact
+site, the same failure mode already seen at the DRN layer. Two standout
+convergences: **M46V** picks up a sixth and seventh independent global
+measure (PC1 eigenvalue, PC1 fraction, DCCM global -- all pointing toward
+less, more evenly-spread motion and lower overall coupling), reinforcing it
+as the clearest allosteric-type case in the panel. **K262R** now has RMSF
+(local rigidification), DSSP (local ordered-SS increase), and DCCM (local
+coupling decrease) all agreeing at its own mutation site -- the most
+internally-consistent *local* multi-method finding in the whole project.
+Full writeup in `METHODS_RESULTS_DISCUSSION.md`.
+
 ## Next steps (per July 29 meeting with Prof. Bishop and Shaylyn, and the
 ## handover document's Recommended Analyses)
 
@@ -318,13 +363,14 @@ pattern already seen for P428T at the DRN layer. Full writeup in
 5. ~~Conformational clustering~~ — done, see above (genuine null result for
    this metric with only 2 WT replicates).
 6. ~~DSSP secondary structure analysis~~ — done, see above (after fixing a
-   broken cpptraj-based first attempt). Still outstanding from the handover
-   document's Recommended Analyses: PCA, DCCM, binding pocket/substrate
-   access channel analysis.
-7. Consider whether the single-metric DRN-only findings (K139E, R140Q,
+   broken cpptraj-based first attempt).
+7. ~~PCA and DCCM~~ — done, see above. Still outstanding from the handover
+   document's Recommended Analyses: binding pocket/substrate access channel
+   analysis.
+8. Consider whether the single-metric DRN-only findings (K139E, R140Q,
    R487C) warrant a deeper look at network structure before being written up
    as standalone findings.
-8. S259R's local-vs-global SASA divergence (own site more exposed while the
+9. S259R's local-vs-global SASA divergence (own site more exposed while the
    whole protein is more compact) deserves a targeted follow-up look.
-9. Decide on final reporting format/figures for all six completed parts for
-   the supervision meeting write-up.
+10. Decide on final reporting format/figures for all seven completed parts
+    for the supervision meeting write-up.

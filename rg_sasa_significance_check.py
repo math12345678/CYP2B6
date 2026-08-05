@@ -46,15 +46,25 @@ def load_sasa_total(path):
     return data[:, 1]
 
 def load_sasa_res(path):
-    # columns: residue index (1-based, Protein group only), avg area, stdev
+    # columns: residue index (1-based, Protein group only -- this is the
+    # real GROMACS resid, and it SKIPS 408 (heme, not part of "Protein"),
+    # e.g. row order goes ...406 407 409 410... with no row for 408.
+    # BUG FIX (found during Part 7/PCA-DCCM work): originally this returned
+    # a plain positional array (data[:, 1]) and window_max() assumed index
+    # i == resid i+1, silently ignoring the file's own resid column. That
+    # is wrong for any mutation site with resid > 408, since the missing
+    # heme row shifts every later residue's *array position* one slot
+    # earlier than its *resid* -- confirmed directly by inspecting
+    # sasa_res_WT.xvg, which jumps "407 ... 409" with no 408 row. Of this
+    # project's mutation sites, only R487C (resid 459) is affected. Fixed
+    # by returning a {resid: value} dict and looking up by actual resid
+    # instead of by array position.
     data = np.loadtxt(path, comments=["#", "@"])
-    return data[:, 1]  # avg area per residue
+    return {int(row[0]): row[1] for row in data}
 
-def window_max(arr_1indexed, target, w=3):
-    # arr_1indexed: 1D array where index i corresponds to residue i+1
-    lo = max(target - w, 1)
-    hi = min(target + w, len(arr_1indexed))
-    return arr_1indexed[lo - 1:hi].max()
+def window_max(res_dict, target, w=3):
+    vals = [v for r, v in res_dict.items() if target - w <= r <= target + w]
+    return max(vals)
 
 print("=" * 70)
 print("Radius of gyration (Rg) -- global only (whole-molecule scalar)")
