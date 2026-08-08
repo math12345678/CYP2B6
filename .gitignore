@@ -69,3 +69,43 @@ covar.log
 # (dssp_*_orderedss.csv, ~5KB/system, written by dssp_summary.py) are
 # tracked.
 dssp_*.dat
+
+# fpocket/MDpocket binding-pocket analysis outputs (run_all_mdpocket.sh).
+#  - md_protein_ref_out/: fpocket pocket detection on the reference
+#    structure (all candidate pockets, ~12MB/system)
+#  - mdpock_<SYS>_*: MDpocket characterization of the selected active-site
+#    pocket (per-frame descriptors + mdpocket_atoms.pdb, ~12MB/system)
+#  - mdpout_*: MDpocket exploration density/frequency grids (multi-MB .dx)
+#  - selected_pocket_<SYS>.pdb: small, tracked -- defines the active-site
+#    pocket per system and is read by pocket_summary.py
+#  - md_pocket.xtc: subsampled 601-frame trajectory (covered by *.xtc)
+md_protein_ref_out/
+mdpock_*
+mdpout_*
+pocket_traj.*
+
+# Python bytecode cache
+__pycache__/
+*.pyc
+
+# OpenCode CLI's own tool state (node_modules, package.json, etc.) -- not
+# project/research data, must never be committed.
+.opencode/
+opencode.jsonc
+
+# CAVER 3.0 substrate access channel analysis (caver_analysis/). Per-system
+# raw output is enormous (~270-365MB/system: full snapshot PDBs, per-frame
+# tunnel geometry, PyMOL/VMD visualization scripts) and caver_analysis/
+# as a whole is ~6.4GB -- far too large to track. Only the small per-system
+# summary tables (summary.txt, summary_precise_numbers.csv, each <10KB) are
+# kept, since caver_summary.py parses summary.txt directly into the tracked
+# caver_summary_all.csv.
+caver_analysis/snapshots/
+caver_analysis/out_WT/
+caver_analysis/logs/
+caver_analysis/caver_results/*/analysis/
+caver_analysis/caver_results/*/data/
+caver_analysis/caver_results/*/pymol/
+caver_analysis/caver_results/*/vmd/
+caver_analysis/caver_results/*/log.txt
+caver_analysis/caver_results/*/warnings.txt

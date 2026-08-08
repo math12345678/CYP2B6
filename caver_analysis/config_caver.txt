@@ -1,0 +1,77 @@
+# CAVER 3.0 config for CYP2B6 substrate-access channel analysis.
+# Starting point: heme Fe (atom 7587, resid 465). Probe radius 0.9 A per
+# standard CAVER tunnel protocol. Outputs summary + bottleneck residues.
+
+#*****************************
+# CALCULATION SETUP
+#*****************************
+load_tunnels no
+load_cluster_tree no
+
+#*****************************
+# INPUT DATA
+#*****************************
+time_sparsity 1
+first_frame 1
+last_frame 121
+
+#*****************************
+# TUNNEL CALCULATION
+#*****************************
+starting_point_atom 7587
+
+probe_radius 0.9
+shell_radius 3
+shell_depth 4
+
+#*****************************
+# TUNNEL CLUSTERING
+#*****************************
+clustering average_link
+weighting_coefficient 1
+clustering_threshold 3.5
+
+#*****************************
+# GENERATION OF OUTPUTS
+#*****************************
+one_tunnel_in_snapshot cheapest
+save_dynamics_visualization yes
+
+generate_summary yes
+generate_tunnel_characteristics yes
+generate_tunnel_profiles yes
+
+generate_histograms yes
+bottleneck_histogram 0.0 4.0 20
+throughput_histogram 0 1.0 10
+
+generate_bottleneck_heat_map yes
+bottleneck_heat_map_range 1.0 4.0
+bottleneck_heat_map_element_size 10 20
+
+generate_profile_heat_map yes
+profile_heat_map_resolution 0.5
+profile_heat_map_range 1.0 4.0
+profile_heat_map_element_size 20 10
+
+compute_tunnel_residues yes
+residue_contact_distance 3.0
+
+compute_bottleneck_residues yes
+bottleneck_contact_distance 3.0
+
+#*****************************
+# ADVANCED SETTINGS
+#*****************************
+number_of_approximating_balls 12
+
+compute_errors no
+save_error_profiles no
+
+path_to_vmd vmd
+generate_trajectory no
+
+#-----------------------------
+# Others
+#-----------------------------
+seed 1

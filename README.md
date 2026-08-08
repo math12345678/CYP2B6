@@ -215,6 +215,60 @@ existing H-bond finding. Only `*_mean.csv`/`*_mean_*.cif` summary files are
 committed (per-frame `.dat` output and the cloned `MD-TASK/` tool are
 gitignored). Full writeup in `METHODS_RESULTS_DISCUSSION.md`.
 
+**DRN network-structure deep-dive (`drn_network_deepdive.py`).** The three
+single-metric DRN-only findings (Next steps item 9) were re-examined at the
+per-residue level to distinguish a *coherent neighborhood effect* from a
+*single-residue artifact* (the failure mode already diagnosed for S259R's
+window-max SASA). Per-residue centrality deltas were built from the
+per-timepoint `.dat` traces (301 timepoints/system, the same data the mean
+CSVs average), with the WT-replicate disagreement as the per-residue noise
+floor; each mutation-site ±3 window was scored two ways — window-max (the
+significance-check metric) and window-mean (a spike-invariant test of whether
+the whole neighborhood moves together):
+
+- **K139E (BC) — coherent neighborhood effect.** Window-max +0.00849 (noise
+  0.00151) and window-mean +0.00118 (noise 0.00004) are both robust. 141/462
+  residues (30.5%) move robustly; |Δ| mass is delocalized (±3 = 2%, ±10 = 5%,
+  ±20 = 8%), as expected for a centrality metric. The strongest movers are BC
+  *decreases* concentrated in the C-terminal L helix (true 442-448) — which
+  contains R443, the CYP2B6 ortholog of CYP2B4 R443, a mapped CPR-binding
+  residue (Bridges et al. 1998, JBC 273:17036; orthology verified by direct
+  CYP2B4↔CYP2B6 alignment) — plus SRS-5 residues (true 362/365). K139 itself
+  is a Bridges et al. CPR contact in the C/D loop (3IBD C helix 117-135,
+  D helix 141-160 → loop 136-140), and K139E (CYP2B6*8) is a charge reversal
+  that abolishes P450-CPR electron transfer while leaving the active site
+  intact (Zhang et al. 2011, JPET 338:803). The BC re-wiring connecting the
+  C/D-loop site to the L-helix CPR surface is therefore structurally
+  meaningful, not a spike artifact.
+- **R140Q (BC) — coherent neighborhood effect.** Window-max +0.00816 (noise
+  0.00151) and window-mean +0.00249 (noise 0.00007) both robust. 143/462
+  (31.0%) robust movers, same delocalized |Δ| mass profile. Uniquely among
+  the three, the top movers are dominated by active-site lining residues —
+  V367, L363 (SRS-5), F297, T302 (SRS-4), I114 (SRS-1), all in the Angle &
+  Cox 2023 active-site 5 Å set — consistent with R140Q's independent robust
+  active-site widening (+98 Å³ mean volume, +0.77 open fraction, the largest
+  in the panel). R140 sits immediately adjacent to K139 in the same C/D loop
+  and R140Q is CYP2B6*14, a variant with reduced expression/function (Lang
+  et al. 2004, JPET 311:34).
+- **R487C (EC) — single-residue artifact, same failure mode as S259R's
+  window-max SASA.** Window-max −0.00506 (noise 0.00193) is robust but
+  window-mean −0.00205 (noise 0.00133) is NOT (the two replicates disagree in
+  sign); only 71/462 (15.4%) residues move robustly and |Δ| mass is even more
+  delocalized (±3 = 1%, ±10 = 3%, ±20 = 4%). The *local* EC finding is
+  downgraded to a spike at the mutated residue itself; only the robust
+  *global* EC decrease stands. Its largest movers nonetheless cluster in the
+  same L-helix region (true 442-448) and SRS-4 — consistent with CYP2B6*5
+  (R487C), a terminal β-strand variant (3IBD SHEET C: R487-P490 paired with
+  F457-A460) with markedly reduced hepatic expression in part compensated by
+  higher specific activity (Lang et al. 2001, Pharmacogenetics 11:399; Zanger
+  et al. 2007).
+
+Verdict: K139E and R140Q's DRN findings survive the window-mean test and are
+written up as genuine (delocalized but structurally coherent) findings;
+R487C's *local* DRN finding does not and is reported as a single-residue
+artifact (only its global EC is retained). Figure:
+`drn_network_deepdive.png`.
+
 ## Radius of gyration (Rg) and SASA analysis
 
 Per the handover document's "Recommended Analyses" list (RMSD/RMSF, Rg,
@@ -243,6 +297,19 @@ global SASA decrease, and a local SASA *increase* at its own site -- the
 opposite direction from the whole-protein decrease, a real and specific
 pattern worth a closer look, not noise). Full writeup in
 `METHODS_RESULTS_DISCUSSION.md`.
+
+**S259R SASA follow-up (`s259r_sasa_followup.py`).** Resolving that
+contradiction residue-by-residue: the local SASA increase at S259R's own
+site is strictly the single mutated residue (GROMACS 231) flipping out to
+solvent — per-residue mean SASA 1.79/2.04 nm² (S259R reps) vs 0.76/0.72 nm²
+(WT reps), +1.18 nm², the largest per-residue SASA change in the whole
+profile — while every residue in its ±3 window (228-230, 232-234) and the
+whole protein are *more buried* (−0.08 to −0.48 nm² each). This is why the
+framework's window-max metric passes robustly (+0.432 nm²) but window-mean
+does not (reps disagree in sign): it is a single-residue outlier effect, not
+local loop unfolding. S259R simultaneously opens its own mutated site and
+compacts the 105-114 loop (the K139E-site hotspot loop) plus the global
+structure. Figure: `s259r_sasa_followup.png`.
 
 ## Conformational clustering
 
@@ -353,6 +420,124 @@ coupling decrease) all agreeing at its own mutation site -- the most
 internally-consistent *local* multi-method finding in the whole project.
 Full writeup in `METHODS_RESULTS_DISCUSSION.md`.
 
+## Binding-pocket (active-site) analysis
+
+Following the reference CYP3A4 paper's MDpocket protocol (Rehema et al., JMB
+2025) -- the last outstanding item on the handover document's "Recommended
+Analyses" list. Two rounds per system, per that paper: (1) whole-protein
+**pocket exploration** producing pocket density/frequency grids
+(`mdpout_dens_grid.dx` / `mdpout_freq_grid.dx`, visualizable in VMD) that show
+where transient pockets open and close over the trajectory; (2) **pocket
+characterization** of the active-site pocket only, producing a per-snapshot
+active-site pocket volume time series (the Fig 4D analog).
+
+Pipeline (`run_one_mdpocket.sh`, batch driver `run_all_mdpocket.sh`):
+- cpptraj subsamples the 30001-frame water-stripped trajectory to every 50th
+  frame (601 frames at 0.5 ns cadence, matching the paper's sampling density),
+  using `md_protein_ref.pdb` (protein+heme) as topology.
+- `fpocket` detects pockets on the reference structure; `select_active_pocket.py`
+  picks the pocket whose centroid is closest to the heme Fe (validated against
+  the canonical CYP2B6 active-site lining residues).
+- Round 2 (characterization): `mdpocket --selected_pocket` writes
+  `mdpock_<SYS>_descriptors.txt` (per-frame `pock_volume`, A^3; 0.00 = pocket
+  closed in that snapshot, so the "open fraction" measures how often the
+  active site is accessible).
+- Round 1 (exploration): `mdpocket` without `--selected_pocket` writes the
+  whole-protein frequency grids.
+
+The conda-forge mdpocket binary crashes at startup (Trace/BPT trap,
+EXC_BREAKPOINT in `get_mdpocket_args`/`my_malloc`) under a random ASLR layout;
+the exploration invocation fails ~100% of direct launches. Running the
+identical command under `lldb` (ASLR off by default) is reliable -- see
+`run_exploration_lldb.sh` (per-system serial; the batch driver runs systems in
+parallel only across different directories). Also note the grids are only
+written at the end of a successful run, so a 0-byte `mdpout_dens_grid.dx` is a
+failed run, not a result -- scripts must check for a non-empty file (`-s`),
+not mere existence (`-f`).
+
+`pocket_summary.py` aggregates per-system metrics from on-disk files:
+active-site volume statistics (mean over all snapshots, mean/median over open
+snapshots only), open fraction, protein-heme H-bond contact count (from the
+Part 2 `hbond_pairs_<SYS>.csv`), heme COM-to-protein COM distance ("heme
+drift"), and the mean RMSF of the WT active-site lining residues (fixed
+reference set so all systems are compared on identical atoms). It writes
+`pocket_<SYS>.csv` per-snapshot time series and `pocket_summary_all.csv`.
+`pocket_significance_check.py` applies the same WT-replicate-noise-floor
+framework used everywhere else; `pocket_plots.py` makes the figures
+(`pocket_volume_all_alleles.png`, `pocket_volume_timeseries_WT.png`,
+`pocket_heme_contacts_all_alleles.png`, `active_site_rmsf_all_alleles.png`).
+
+**Results:** the active-site volume and open-fraction metrics are the most
+productive of the pocket analysis. Robust **volume and open-fraction
+increases** (both replicates agree, replicate-averaged delta above the WT
+noise floor) are seen in **I328T** (mean_vol_all +59 A^3, open_frac +0.48),
+**I391N** (+7.9 A^3, +0.13), **R140Q** (+98 A^3, +0.77 -- the strongest
+pocket-widening in the panel), **R487C** (+31 A^3, +0.40), **P428T**
+(+88 A^3, +0.38), and **T306S-R378K** (+17 A^3, +0.22). K139E and M46V show
+robust increases in open-pocket volume only (larger pocket *when* it is open,
+but no replicate-consistent change in how often it opens). Active-site RMSF
+adds only I328T (robust increase, +0.019 nm). **Heme drift** (heme COM-to-
+protein COM distance) shows robust *decreases* in **K262R** (-1.2 nm) and
+**S259R** (-1.5 nm) -- both mutants' heme sits closer to the protein center
+than WT on average. The heme H-bond contact metric is not discriminative in
+this dataset: the two WT replicates differ by ~42,000 frames (noise floor
+dwarfing every allele's delta), so no allele claim is made on it. Full
+writeup in `METHODS_RESULTS_DISCUSSION.md`.
+
+### Substrate-access-channel analysis (CAVER 3.0)
+
+Following the reference paper's substrate-channel-dynamics protocol (Rehema
+et al., JMB 2025, which explicitly includes substrate channel dynamics for
+allele comparisons) using **CAVER 3.0** (Chovancova et al., PLoS Comput Biol
+2012, 8:e1002708) -- the same tool family used for CYP2B6 substrate channels
+(IterTunnel, J Cheminform 2014; CYP2D6 PLoS One 2014; CYP3A4 PLoS One 2024).
+All 24 systems (WT/WT_2 + 11 alleles x 2 replicates) were analyzed; 0
+failures.
+
+- Snapshots: 121 structures per system from the same 601-frame water-stripped
+  trajectory used by MDpocket, every 5th frame (2.5 ns cadence), prepared by
+  `prep_caver_snapshots.py` from `md_pocket.xtc`.
+- Starting point: the buried active-site cavity centroid of each system
+  (WT cavity centroid [48.27, 43.87, 42.05] + per-system heme-Fe offset),
+  `starting_points.tsv`, in `config_caver_template.txt`. A bare-heme-Fe
+  starting point was tried first and yields zero tunnels ("starting point in
+  a buried cavity" warning) -- the centroid-of-cavity start is required, and
+  matches published CAVER CYP practice.
+- CAVER 3.0 requires a working JVM; the analysis runs under conda env
+  `cyp2b6` with `openjdk=8` (Zulu macos-aarch64). Driver
+  `caver_analysis/run_all_caver.sh` runs systems in parallel (default 4).
+- Metrics per snapshot (from `analysis/tunnel_characteristics.csv`):
+  n tunnels, widest bottleneck radius, length; "open" = widest bottleneck
+  radius >= 1.3 A (water VDW radius). `analyze_caver_results.py` aggregates
+  over the full 121-snapshot set (CAVER omits rows for snapshots with zero
+  tunnels, so the denominator is the expected frame range 1..601 step 5, not
+  the observed rows) and writes `caver_summary_all.csv`;
+  `caver_plots.py` makes `caver_open_frac_all_alleles.png`.
+
+**Results (WT-replicate noise-floor framework):** the channel **open
+fraction** (fraction of snapshots with a water-passable channel) shows robust
+*increases* in **K139E** (+0.15), **M46V** (+0.10), **I328T** (+0.45),
+**R487C** (+0.16) and **T306S-R378K** (+0.13), and a robust *decrease* in
+**S259R** (-0.05). The open-channel bottleneck radius (mean over open
+snapshots only, an unusually low WT noise floor of 0.003 A) shows robust
+*wider* open channels in 8/11 alleles: **G99E, K139E, M46V, I391N, K262R,
+R140Q, R487C, T306S-R378K**. Caveats: the I328T open-fraction is driven by a
+single replicate (open_frac 0.917 vs 0.091; magnitude not
+replicate-consistent, sign is); the mean over all snapshots (max_bottleneck,
+all snapshots) and the >=1.7 A threshold have WT noise floors too large / too
+small respectively to support claims. The substrate-channel findings
+converge with the MDpocket active-site results above (I328T, R487C,
+T306S-R378K widen the pocket *and* open the access channel more often).
+
+### Exploration frequency grids (whole-protein MDpocket)
+
+The whole-protein pocket exploration grids (Round 1 above) completed for all
+24 systems: non-empty `mdpout_dens_grid.dx` / `mdpout_freq_grid.dx` per
+system, visualizable in VMD. As in the reference paper these grids are the
+qualitative substrate-exploration surface; no allele-level numeric claim is
+derived from them directly (the quantitative claims come from the
+characterization and CAVER rounds).
+
 ## Next steps (per July 29 meeting with Prof. Bishop and Shaylyn, and the
 ## handover document's Recommended Analyses)
 
@@ -364,13 +549,27 @@ Full writeup in `METHODS_RESULTS_DISCUSSION.md`.
    this metric with only 2 WT replicates).
 6. ~~DSSP secondary structure analysis~~ — done, see above (after fixing a
    broken cpptraj-based first attempt).
-7. ~~PCA and DCCM~~ — done, see above. Still outstanding from the handover
-   document's Recommended Analyses: binding pocket/substrate access channel
-   analysis.
-8. Consider whether the single-metric DRN-only findings (K139E, R140Q,
+7. ~~PCA and DCCM~~ — done, see above.
+8. ~~Binding-pocket / substrate access channel analysis~~ — done, see above:
+   robust active-site widening in I328T, I391N, R140Q, R487C, P428T,
+   T306S-R378K (MDpocket); robust heme-drift decrease in K262R and S259R;
+   CAVER 3.0 substrate-channel open-fraction increases in K139E, M46V,
+   I328T, R487C, T306S-R378K and wider open channels in 8/11 alleles
+   (decrease in S259R); whole-protein exploration frequency grids also
+   complete for all 24 systems.
+9. ~~Consider whether the single-metric DRN-only findings (K139E, R140Q,
    R487C) warrant a deeper look at network structure before being written up
-   as standalone findings.
-9. S259R's local-vs-global SASA divergence (own site more exposed while the
-   whole protein is more compact) deserves a targeted follow-up look.
-10. Decide on final reporting format/figures for all seven completed parts
+   as standalone findings~~ — done, see the DRN deep-dive above:
+   `drn_network_deepdive.py`/`drn_network_deepdive.png` resolves them into
+   two coherent neighborhood effects (K139E, R140Q — written up as genuine,
+   localized to the proximal-face/L-helix CPR surface and the active-site 5 Å
+   set, respectively) and one single-residue artifact (R487C's local EC,
+   same failure mode as S259R's window-max SASA; only its global EC is kept).
+10. ~~S259R's local-vs-global SASA divergence~~ — done, see the follow-up in
+    the Rg/SASA section: the "own site more exposed" effect is strictly the
+    single mutated residue (GROMACS 231, ~2.5x WT exposure, +1.18 nm²)
+    flipping out to solvent while its ±3 neighbors and the whole protein are
+    all more buried (`s259r_sasa_followup.py`, `s259r_sasa_followup.png`;
+    the dashboard's S259R panel now plots the real per-residue SASA delta).
+11. Decide on final reporting format/figures for all eight completed parts
     for the supervision meeting write-up.

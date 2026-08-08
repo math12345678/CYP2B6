@@ -1,0 +1,381 @@
+== K139E: mdpocket exploration via lldb (ASLR off), attempt 1
+== K139E_2: mdpocket exploration via lldb (ASLR off), attempt 1
+== M46V: mdpocket exploration via lldb (ASLR off), attempt 1
+== G99E: mdpocket exploration via lldb (ASLR off), attempt 1
+== G99E_2: mdpocket exploration via lldb (ASLR off), attempt 1
+== WT_2: mdpocket exploration via lldb (ASLR off), attempt 1
+./run_exploration_lldb.sh: line 28: 10396 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 10393 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 10404 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== K139E: mdpocket exploration via lldb (ASLR off), attempt 2
+== G99E_2: mdpocket exploration via lldb (ASLR off), attempt 2
+./run_exploration_lldb.sh: line 28: 10712 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+./run_exploration_lldb.sh: line 28: 10711 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+  attempt 1 failed (lldb rc=143, grid 0 bytes)
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1== M46V: mdpocket exploration via lldb (ASLR off), attempt 2
+  attempt 1 failed (lldb rc=143, grid 0 bytes)
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1== WT_2: mdpocket exploration via lldb (ASLR off), attempt 2
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+  attempt 1 failed (lldb rc=143, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+Current executable set to '/opt/anaconda3/envs/cyp2b6/bin/mdpocket' (arm64).
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+== G99E: mdpocket exploration via lldb (ASLR off), attempt 2
+== K139E_2: mdpocket exploration via lldb (ASLR off), attempt 2
+./run_exploration_lldb.sh: line 28: 10741 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+./run_exploration_lldb.sh: line 28: 10778 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== G99E: mdpocket exploration via lldb (ASLR off), attempt 3
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== WT_2: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== M46V: mdpocket exploration via lldb (ASLR off), attempt 3
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== G99E_2: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== K139E: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 2 failed (lldb rc=143, grid 0 bytes)
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+== K139E_2: mdpocket exploration via lldb (ASLR off), attempt 3
+./run_exploration_lldb.sh: line 28: 10793 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 10799 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+WARN M46V: exploration still failed under lldb after 3 attempts
+WARN K139E_2: exploration still failed under lldb after 3 attempts
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+WARN G99E: exploration still failed under lldb after 3 attempts
+== M46V_2: mdpocket exploration via lldb (ASLR off), attempt 1
+== I328T: mdpocket exploration via lldb (ASLR off), attempt 1
+== I328T_2: mdpocket exploration via lldb (ASLR off), attempt 1
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+WARN K139E: exploration still failed under lldb after 3 attempts
+== I391N: mdpocket exploration via lldb (ASLR off), attempt 1
+./run_exploration_lldb.sh: line 28: 10840 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1WARN G99E_2: exploration still failed under lldb after 3 attempts
+WARN WT_2: exploration still failed under lldb after 3 attempts
+== I391N_2: mdpocket exploration via lldb (ASLR off), attempt 1
+== K262R: mdpocket exploration via lldb (ASLR off), attempt 1
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== I328T: mdpocket exploration via lldb (ASLR off), attempt 2
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== I391N: mdpocket exploration via lldb (ASLR off), attempt 2
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== I328T_2: mdpocket exploration via lldb (ASLR off), attempt 2
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== K262R: mdpocket exploration via lldb (ASLR off), attempt 2
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== M46V_2: mdpocket exploration via lldb (ASLR off), attempt 2
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== I391N_2: mdpocket exploration via lldb (ASLR off), attempt 2
+./run_exploration_lldb.sh: line 28: 10975 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+./run_exploration_lldb.sh: line 28: 10942 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+./run_exploration_lldb.sh: line 28: 10977 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== I328T_2: mdpocket exploration via lldb (ASLR off), attempt 3
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== I328T: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== K262R: mdpocket exploration via lldb (ASLR off), attempt 3
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== I391N: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== I391N_2: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 2 failed (lldb rc=143, grid 0 bytes)
+Current executable set to '/opt/anaconda3/envs/cyp2b6/bin/mdpocket' (arm64).
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+== M46V_2: mdpocket exploration via lldb (ASLR off), attempt 3
+./run_exploration_lldb.sh: line 28: 10995 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11001 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11008 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11002 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11013 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+WARN I328T_2: exploration still failed under lldb after 3 attempts
+== K262R_2: mdpocket exploration via lldb (ASLR off), attempt 1
+./run_exploration_lldb.sh: line 28: 11030 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+./run_exploration_lldb.sh: line 28: 11028 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+./run_exploration_lldb.sh: line 28: 11026 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+./run_exploration_lldb.sh: line 28: 11029 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+WARN M46V_2: exploration still failed under lldb after 3 attempts
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+WARN I391N: exploration still failed under lldb after 3 attempts
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+WARN I391N_2: exploration still failed under lldb after 3 attempts
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+WARN K262R: exploration still failed under lldb after 3 attempts
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+WARN I328T: exploration still failed under lldb after 3 attempts
+== R140Q: mdpocket exploration via lldb (ASLR off), attempt 1
+== R487C: mdpocket exploration via lldb (ASLR off), attempt 1
+== R140Q_2: mdpocket exploration via lldb (ASLR off), attempt 1
+== R487C_2: mdpocket exploration via lldb (ASLR off), attempt 1
+== P428T: mdpocket exploration via lldb (ASLR off), attempt 1
+./run_exploration_lldb.sh: line 28: 11062 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11064 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11063 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11069 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+./run_exploration_lldb.sh: line 28: 11067 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== K262R_2: mdpocket exploration via lldb (ASLR off), attempt 2
+./run_exploration_lldb.sh: line 28: 11093 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+./run_exploration_lldb.sh: line 28: 11094 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+./run_exploration_lldb.sh: line 28: 11096 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+./run_exploration_lldb.sh: line 28: 11095 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+./run_exploration_lldb.sh: line 28: 11099 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 1 failed (lldb rc=143, grid missing bytes)
+  attempt 1 failed (lldb rc=143, grid missing bytes)
+  attempt 1 failed (lldb rc=143, grid missing bytes)
+  attempt 1 failed (lldb rc=143, grid missing bytes)
+  attempt 1 failed (lldb rc=143, grid missing bytes)
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+== R487C: mdpocket exploration via lldb (ASLR off), attempt 2
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+== P428T: mdpocket exploration via lldb (ASLR off), attempt 2
+== R140Q: mdpocket exploration via lldb (ASLR off), attempt 2
+== R140Q_2: mdpocket exploration via lldb (ASLR off), attempt 2
+== R487C_2: mdpocket exploration via lldb (ASLR off), attempt 2
+  attempt 2 failed (lldb rc=143, grid 0 bytes)
+(lldb) target create "/opt/anaconda3/envs/cyp2b6/bin/mdpocket"
+== K262R_2: mdpocket exploration via lldb (ASLR off), attempt 3
+./run_exploration_lldb.sh: line 28: 11117 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11119 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== P428T: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== R487C_2: mdpocket exploration via lldb (ASLR off), attempt 3
+./run_exploration_lldb.sh: line 28: 11162 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== R140Q_2: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 2 failed (lldb rc=143, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+  attempt 2 failed (lldb rc=143, grid 0 bytes)
+WARN K262R_2: exploration still failed under lldb after 3 attempts
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1== R140Q: mdpocket exploration via lldb (ASLR off), attempt 3
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1== R487C: mdpocket exploration via lldb (ASLR off), attempt 3
+== P428T_2: mdpocket exploration via lldb (ASLR off), attempt 1
+./run_exploration_lldb.sh: line 28: 11177 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11195 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11197 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+WARN P428T: exploration still failed under lldb after 3 attempts
+== S259R: mdpocket exploration via lldb (ASLR off), attempt 1
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+WARN R140Q_2: exploration still failed under lldb after 3 attempts
+== S259R_2: mdpocket exploration via lldb (ASLR off), attempt 1
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+./run_exploration_lldb.sh: line 28: 11230 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+./run_exploration_lldb.sh: line 28: 11231 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+WARN R140Q: exploration still failed under lldb after 3 attempts
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+== T306S-R378K: mdpocket exploration via lldb (ASLR off), attempt 1
+  attempt 1 failed (lldb rc=143, grid missing bytes)
+Current executable set to '/opt/anaconda3/envs/cyp2b6/bin/mdpocket' (arm64).
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+Current executable set to '/opt/anaconda3/envs/cyp2b6/bin/mdpocket' (arm64).
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+WARN R487C_2: exploration still failed under lldb after 3 attempts
+WARN R487C: exploration still failed under lldb after 3 attempts
+Current executable set to '/opt/anaconda3/envs/cyp2b6/bin/mdpocket' (arm64).
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+== P428T_2: mdpocket exploration via lldb (ASLR off), attempt 2
+== T306S-R378K_2: mdpocket exploration via lldb (ASLR off), attempt 1
+./run_exploration_lldb.sh: line 28: 11244 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11237 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== P428T_2: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== T306S-R378K_2: mdpocket exploration via lldb (ASLR off), attempt 2
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== T306S-R378K: mdpocket exploration via lldb (ASLR off), attempt 2
+./run_exploration_lldb.sh: line 28: 11295 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+  attempt 1 failed (lldb rc=143, grid 0 bytes)
+  attempt 1 failed (lldb rc=143, grid 0 bytes)
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1== S259R: mdpocket exploration via lldb (ASLR off), attempt 2
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1== S259R_2: mdpocket exploration via lldb (ASLR off), attempt 2
+./run_exploration_lldb.sh: line 28: 11302 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11305 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== S259R_2: mdpocket exploration via lldb (ASLR off), attempt 3
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== S259R: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== T306S-R378K: mdpocket exploration via lldb (ASLR off), attempt 3
+./run_exploration_lldb.sh: line 28: 11345 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+  attempt 2 failed (lldb rc=143, grid 0 bytes)
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1== T306S-R378K_2: mdpocket exploration via lldb (ASLR off), attempt 3
+WARN P428T_2: exploration still failed under lldb after 3 attempts
+./run_exploration_lldb.sh: line 28: 11351 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+./run_exploration_lldb.sh: line 28: 11360 Terminated: 15          timeout 1500 lldb -b -o run -o quit -- /opt/anaconda3/envs/cyp2b6/bin/mdpocket --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+WARN S259R: exploration still failed under lldb after 3 attempts
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+WARN T306S-R378K_2: exploration still failed under lldb after 3 attempts
+./run_exploration_lldb.sh: line 28: 11396 Terminated: 15          pkill -f "/envs/cyp2b6/bin/mdpocket" 2> /dev/null
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+  attempt 3 failed (lldb rc=143, grid 0 bytes)
+(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1(lldb) settings set -- target.run-args  "--trajectory_file" "md_pocket.xtc" "--trajectory_format" "xtc" "-f" "md_protein_ref.pdb"
+(lldb) run
+<mdpocket> analysing snapshot 1WARN T306S-R378K: exploration still failed under lldb after 3 attempts
+WARN S259R_2: exploration still failed under lldb after 3 attempts

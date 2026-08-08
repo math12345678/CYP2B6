@@ -1,0 +1,338 @@
+run_one_mdpocket.sh: line 80: mdpock_WT_2_descriptors.txt: No such file or directory
+run_one_mdpocket.sh: line 80: mdpock_K139E_2_descriptors.txt: No such file or directory
+DONE WT
+== WT_2: mdpocket characterization (selected pocket), attempt 1
+== K139E_2: mdpocket characterization (selected pocket), attempt 1
+== G99E: mdpocket characterization (selected pocket), attempt 1
+== G99E_2: mdpocket characterization (selected pocket), attempt 1
+== K139E: mdpocket characterization (selected pocket), attempt 1
+run_one_mdpocket.sh: line 91: 97377 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc --selected_pocket "selected_pocket_${SYS}.pdb" -f md_protein_ref.pdb -o "mdpock_${SYS}" > "mdpock_${SYS}.log" 2>&1
+run_one_mdpocket.sh: line 80: mdpock_WT_2_descriptors.txt: No such file or directory
+run_one_mdpocket.sh: line 91: 97384 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc --selected_pocket "selected_pocket_${SYS}.pdb" -f md_protein_ref.pdb -o "mdpock_${SYS}" > "mdpock_${SYS}.log" 2>&1
+run_one_mdpocket.sh: line 80: mdpock_K139E_descriptors.txt: No such file or directory
+== WT_2: mdpocket characterization (selected pocket), attempt 2
+== M46V: mdpocket characterization (selected pocket), attempt 1
+== K139E: mdpocket characterization (selected pocket), attempt 2
+run_one_mdpocket.sh: line 95: syntax error near unexpected token `done'
+== M46V_2: mdpocket characterization (selected pocket), attempt 1
+run_one_mdpocket.sh: line 95: syntax error near unexpected token `done'
+== I328T: mdpocket characterization (selected pocket), attempt 1
+run_one_mdpocket.sh: line 95: syntax error near unexpected token `done'
+== I328T_2: mdpocket characterization (selected pocket), attempt 1
+run_one_mdpocket.sh: line 95: syntax error near unexpected token `done'
+== I391N: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/I391N: selected pocket 1 (alpha-sphere centroid 9.57 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/I391N/selected_pocket_I391N.pdb
+  lining residues (GROMACS numbering): [23, 73, 76, 80, 86, 87, 178, 181, 187, 190, 210, 266, 269, 270, 273, 274, 335, 337, 338, 339, 340, 361, 449, 464]
+  true numbering (+28): [51, 101, 104, 108, 114, 115, 206, 209, 215, 218, 238, 294, 297, 298, 301, 302, 363, 365, 366, 367, 368, 389, 477, 492]
+run_one_mdpocket.sh: line 83: mdpock_I391N_descriptors.txt: No such file or directory
+== I391N: mdpocket characterization (selected pocket), attempt 1
+run_one_mdpocket.sh: line 95: syntax error near unexpected token `done'
+== I391N_2: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/I391N_2: selected pocket 1 (alpha-sphere centroid 9.57 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/I391N_2/selected_pocket_I391N_2.pdb
+  lining residues (GROMACS numbering): [23, 73, 76, 80, 86, 87, 178, 181, 187, 190, 210, 266, 269, 270, 273, 274, 335, 337, 338, 339, 340, 361, 449, 464]
+  true numbering (+28): [51, 101, 104, 108, 114, 115, 206, 209, 215, 218, 238, 294, 297, 298, 301, 302, 363, 365, 366, 367, 368, 389, 477, 492]
+run_one_mdpocket.sh: line 83: mdpock_I391N_2_descriptors.txt: No such file or directory
+== I391N_2: mdpocket characterization (selected pocket), attempt 1
+run_one_mdpocket.sh: line 95: syntax error near unexpected token `done'
+== K262R: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/K262R: selected pocket 1 (alpha-sphere centroid 8.75 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/K262R/selected_pocket_K262R.pdb
+  lining residues (GROMACS numbering): [73, 76, 80, 86, 87, 178, 181, 210, 266, 269, 270, 273, 274, 335, 338, 339, 449, 464, 465]
+  true numbering (+28): [101, 104, 108, 114, 115, 206, 209, 238, 294, 297, 298, 301, 302, 363, 366, 367, 477, 492, 493]
+run_one_mdpocket.sh: line 83: mdpock_K262R_descriptors.txt: No such file or directory
+== K262R: mdpocket characterization (selected pocket), attempt 1
+== M46V_2: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  6678 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== M46V_2: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  6681 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== M46V_2: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  6683 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== M46V_2: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  6685 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== M46V_2: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  6687 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN M46V_2: mdpocket exploration incomplete after 5 attempts
+DONE M46V_2
+== K262R_2: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/K262R_2: selected pocket 1 (alpha-sphere centroid 8.75 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/K262R_2/selected_pocket_K262R_2.pdb
+  lining residues (GROMACS numbering): [73, 76, 80, 86, 87, 178, 181, 210, 266, 269, 270, 273, 274, 335, 338, 339, 449, 464, 465]
+  true numbering (+28): [101, 104, 108, 114, 115, 206, 209, 238, 294, 297, 298, 301, 302, 363, 366, 367, 477, 492, 493]
+run_one_mdpocket.sh: line 83: mdpock_K262R_2_descriptors.txt: No such file or directory
+== K262R_2: mdpocket characterization (selected pocket), attempt 1
+== I328T: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  6744 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I328T: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  6746 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I328T: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  6748 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I328T: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  6750 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I328T: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  6752 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN I328T: mdpocket exploration incomplete after 5 attempts
+DONE I328T
+== R140Q: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/R140Q: selected pocket 1 (alpha-sphere centroid 9.49 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/R140Q/selected_pocket_R140Q.pdb
+  lining residues (GROMACS numbering): [72, 73, 76, 80, 86, 87, 178, 181, 190, 210, 266, 269, 270, 273, 274, 335, 337, 338, 339, 340, 361, 449, 464]
+  true numbering (+28): [100, 101, 104, 108, 114, 115, 206, 209, 218, 238, 294, 297, 298, 301, 302, 363, 365, 366, 367, 368, 389, 477, 492]
+run_one_mdpocket.sh: line 83: mdpock_R140Q_descriptors.txt: No such file or directory
+== R140Q: mdpocket characterization (selected pocket), attempt 1
+run_one_mdpocket.sh: line 94:  6765 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc --selected_pocket "selected_pocket_${SYS}.pdb" -f md_protein_ref.pdb -o "mdpock_${SYS}" > "mdpock_${SYS}.log" 2>&1
+run_one_mdpocket.sh: line 83: mdpock_R140Q_descriptors.txt: No such file or directory
+== R140Q: mdpocket characterization (selected pocket), attempt 2
+== I391N_2: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  6775 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I391N_2: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  6777 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I391N_2: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  6779 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I391N_2: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  6781 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I391N_2: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  6783 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN I391N_2: mdpocket exploration incomplete after 5 attempts
+DONE I391N_2
+== R140Q_2: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/R140Q_2: selected pocket 1 (alpha-sphere centroid 9.49 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/R140Q_2/selected_pocket_R140Q_2.pdb
+  lining residues (GROMACS numbering): [72, 73, 76, 80, 86, 87, 178, 181, 190, 210, 266, 269, 270, 273, 274, 335, 337, 338, 339, 340, 361, 449, 464]
+  true numbering (+28): [100, 101, 104, 108, 114, 115, 206, 209, 218, 238, 294, 297, 298, 301, 302, 363, 365, 366, 367, 368, 389, 477, 492]
+run_one_mdpocket.sh: line 83: mdpock_R140Q_2_descriptors.txt: No such file or directory
+== R140Q_2: mdpocket characterization (selected pocket), attempt 1
+== I391N: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  6798 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I391N: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  6800 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I391N: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  6802 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I391N: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  6804 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I391N: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  6806 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN I391N: mdpocket exploration incomplete after 5 attempts
+DONE I391N
+== R487C: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/R487C: selected pocket 1 (alpha-sphere centroid 8.25 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/R487C/selected_pocket_R487C.pdb
+  lining residues (GROMACS numbering): [73, 76, 80, 86, 87, 178, 181, 210, 266, 269, 270, 273, 274, 335, 338, 339, 449, 464]
+  true numbering (+28): [101, 104, 108, 114, 115, 206, 209, 238, 294, 297, 298, 301, 302, 363, 366, 367, 477, 492]
+run_one_mdpocket.sh: line 83: mdpock_R487C_descriptors.txt: No such file or directory
+== R487C: mdpocket characterization (selected pocket), attempt 1
+run_one_mdpocket.sh: line 94:  6817 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc --selected_pocket "selected_pocket_${SYS}.pdb" -f md_protein_ref.pdb -o "mdpock_${SYS}" > "mdpock_${SYS}.log" 2>&1
+run_one_mdpocket.sh: line 83: mdpock_R487C_descriptors.txt: No such file or directory
+== R487C: mdpocket characterization (selected pocket), attempt 2
+== K262R: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  7168 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== K262R: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  7170 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== K262R: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  7173 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== K262R: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  7176 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== K262R: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  7179 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN K262R: mdpocket exploration incomplete after 5 attempts
+DONE K262R
+== R487C_2: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/R487C_2: selected pocket 1 (alpha-sphere centroid 8.25 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/R487C_2/selected_pocket_R487C_2.pdb
+  lining residues (GROMACS numbering): [73, 76, 80, 86, 87, 178, 181, 210, 266, 269, 270, 273, 274, 335, 338, 339, 449, 464]
+  true numbering (+28): [101, 104, 108, 114, 115, 206, 209, 238, 294, 297, 298, 301, 302, 363, 366, 367, 477, 492]
+run_one_mdpocket.sh: line 83: mdpock_R487C_2_descriptors.txt: No such file or directory
+== R487C_2: mdpocket characterization (selected pocket), attempt 1
+== I328T_2: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  7684 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I328T_2: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  7686 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I328T_2: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  7688 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I328T_2: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  7690 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== I328T_2: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  7693 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN I328T_2: mdpocket exploration incomplete after 5 attempts
+DONE I328T_2
+== P428T: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/P428T: selected pocket 1 (alpha-sphere centroid 8.38 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/P428T/selected_pocket_P428T.pdb
+  lining residues (GROMACS numbering): [73, 76, 80, 86, 87, 178, 181, 210, 266, 269, 270, 273, 274, 335, 338, 339, 340, 449, 464, 465]
+  true numbering (+28): [101, 104, 108, 114, 115, 206, 209, 238, 294, 297, 298, 301, 302, 363, 366, 367, 368, 477, 492, 493]
+run_one_mdpocket.sh: line 83: mdpock_P428T_descriptors.txt: No such file or directory
+== P428T: mdpocket characterization (selected pocket), attempt 1
+run_one_mdpocket.sh: line 94:  7706 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc --selected_pocket "selected_pocket_${SYS}.pdb" -f md_protein_ref.pdb -o "mdpock_${SYS}" > "mdpock_${SYS}.log" 2>&1
+run_one_mdpocket.sh: line 83: mdpock_P428T_descriptors.txt: No such file or directory
+== P428T: mdpocket characterization (selected pocket), attempt 2
+== R140Q: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  9116 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R140Q: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  9119 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R140Q: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  9121 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R140Q: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  9123 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R140Q: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  9125 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN R140Q: mdpocket exploration incomplete after 5 attempts
+DONE R140Q
+== P428T_2: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/P428T_2: selected pocket 1 (alpha-sphere centroid 8.38 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/P428T_2/selected_pocket_P428T_2.pdb
+  lining residues (GROMACS numbering): [73, 76, 80, 86, 87, 178, 181, 210, 266, 269, 270, 273, 274, 335, 338, 339, 340, 449, 464, 465]
+  true numbering (+28): [101, 104, 108, 114, 115, 206, 209, 238, 294, 297, 298, 301, 302, 363, 366, 367, 368, 477, 492, 493]
+run_one_mdpocket.sh: line 83: mdpock_P428T_2_descriptors.txt: No such file or directory
+== P428T_2: mdpocket characterization (selected pocket), attempt 1
+== K262R_2: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  9157 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== K262R_2: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  9159 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== K262R_2: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  9161 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== K262R_2: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  9163 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== K262R_2: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  9165 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN K262R_2: mdpocket exploration incomplete after 5 attempts
+DONE K262R_2
+== S259R: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/S259R: selected pocket 1 (alpha-sphere centroid 8.90 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/S259R/selected_pocket_S259R.pdb
+  lining residues (GROMACS numbering): [73, 76, 80, 86, 87, 177, 178, 181, 210, 266, 269, 270, 274, 335, 339, 449, 464, 465]
+  true numbering (+28): [101, 104, 108, 114, 115, 205, 206, 209, 238, 294, 297, 298, 302, 363, 367, 477, 492, 493]
+run_one_mdpocket.sh: line 83: mdpock_S259R_descriptors.txt: No such file or directory
+== S259R: mdpocket characterization (selected pocket), attempt 1
+== R487C: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  9180 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R487C: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  9182 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R487C: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  9184 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R487C: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  9186 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R487C: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  9188 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN R487C: mdpocket exploration incomplete after 5 attempts
+DONE R487C
+== S259R_2: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/S259R_2: selected pocket 1 (alpha-sphere centroid 8.90 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/S259R_2/selected_pocket_S259R_2.pdb
+  lining residues (GROMACS numbering): [73, 76, 80, 86, 87, 177, 178, 181, 210, 266, 269, 270, 274, 335, 339, 449, 464, 465]
+  true numbering (+28): [101, 104, 108, 114, 115, 205, 206, 209, 238, 294, 297, 298, 302, 363, 367, 477, 492, 493]
+run_one_mdpocket.sh: line 83: mdpock_S259R_2_descriptors.txt: No such file or directory
+== S259R_2: mdpocket characterization (selected pocket), attempt 1
+run_one_mdpocket.sh: line 94:  9199 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc --selected_pocket "selected_pocket_${SYS}.pdb" -f md_protein_ref.pdb -o "mdpock_${SYS}" > "mdpock_${SYS}.log" 2>&1
+run_one_mdpocket.sh: line 83: mdpock_S259R_2_descriptors.txt: No such file or directory
+== S259R_2: mdpocket characterization (selected pocket), attempt 2
+== R140Q_2: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  9429 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R140Q_2: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  9431 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R140Q_2: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  9433 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R140Q_2: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  9435 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R140Q_2: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  9437 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN R140Q_2: mdpocket exploration incomplete after 5 attempts
+DONE R140Q_2
+== T306S-R378K: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/T306S-R378K: selected pocket 1 (alpha-sphere centroid 9.20 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/T306S-R378K/selected_pocket_T306S-R378K.pdb
+  lining residues (GROMACS numbering): [73, 76, 80, 86, 87, 177, 178, 181, 210, 266, 269, 270, 273, 274, 335, 338, 339, 449, 464]
+  true numbering (+28): [101, 104, 108, 114, 115, 205, 206, 209, 238, 294, 297, 298, 301, 302, 363, 366, 367, 477, 492]
+run_one_mdpocket.sh: line 83: mdpock_T306S-R378K_descriptors.txt: No such file or directory
+== T306S-R378K: mdpocket characterization (selected pocket), attempt 1
+== R487C_2: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  9482 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R487C_2: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  9484 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R487C_2: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  9486 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R487C_2: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  9488 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== R487C_2: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  9490 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN R487C_2: mdpocket exploration incomplete after 5 attempts
+DONE R487C_2
+== T306S-R378K_2: select active-site pocket
+/Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/T306S-R378K_2: selected pocket 1 (alpha-sphere centroid 9.20 A from heme Fe)
+  wrote /Users/smyan/Desktop/Research/Research_Projects/RU-CYP2B6/T306S-R378K_2/selected_pocket_T306S-R378K_2.pdb
+  lining residues (GROMACS numbering): [73, 76, 80, 86, 87, 177, 178, 181, 210, 266, 269, 270, 273, 274, 335, 338, 339, 449, 464]
+  true numbering (+28): [101, 104, 108, 114, 115, 205, 206, 209, 238, 294, 297, 298, 301, 302, 363, 366, 367, 477, 492]
+run_one_mdpocket.sh: line 83: mdpock_T306S-R378K_2_descriptors.txt: No such file or directory
+== T306S-R378K_2: mdpocket characterization (selected pocket), attempt 1
+== P428T: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112:  9557 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== P428T: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112:  9559 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== P428T: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112:  9561 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== P428T: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112:  9563 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== P428T: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112:  9565 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN P428T: mdpocket exploration incomplete after 5 attempts
+DONE P428T
+== S259R_2: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112: 10541 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== S259R_2: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112: 10543 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== S259R_2: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112: 10545 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== S259R_2: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112: 10547 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== S259R_2: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112: 10549 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN S259R_2: mdpocket exploration incomplete after 5 attempts
+DONE S259R_2
+== P428T_2: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112: 10619 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== P428T_2: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112: 10621 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== P428T_2: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112: 10623 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== P428T_2: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112: 10625 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== P428T_2: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112: 10628 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN P428T_2: mdpocket exploration incomplete after 5 attempts
+DONE P428T_2
+== S259R: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112: 10634 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== S259R: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112: 10636 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== S259R: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112: 10638 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== S259R: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112: 10640 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== S259R: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112: 10642 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN S259R: mdpocket exploration incomplete after 5 attempts
+DONE S259R
+== T306S-R378K: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112: 10723 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== T306S-R378K: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112: 10725 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== T306S-R378K: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112: 10727 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== T306S-R378K: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112: 10729 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== T306S-R378K: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112: 10731 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN T306S-R378K: mdpocket exploration incomplete after 5 attempts
+DONE T306S-R378K
+== T306S-R378K_2: mdpocket exploration (frequency map), attempt 1
+run_one_mdpocket.sh: line 112: 10739 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== T306S-R378K_2: mdpocket exploration (frequency map), attempt 2
+run_one_mdpocket.sh: line 112: 10741 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== T306S-R378K_2: mdpocket exploration (frequency map), attempt 3
+run_one_mdpocket.sh: line 112: 10743 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== T306S-R378K_2: mdpocket exploration (frequency map), attempt 4
+run_one_mdpocket.sh: line 112: 10745 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+== T306S-R378K_2: mdpocket exploration (frequency map), attempt 5
+run_one_mdpocket.sh: line 112: 10747 Trace/BPT trap: 5       $MDPOCKET --trajectory_file md_pocket.xtc --trajectory_format xtc -f md_protein_ref.pdb > mdpout.log 2>&1
+WARN T306S-R378K_2: mdpocket exploration incomplete after 5 attempts
+DONE T306S-R378K_2

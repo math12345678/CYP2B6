@@ -1,0 +1,16 @@
+== M46V_2: mdpocket exploration via lldb (ASLR off), attempt 1
+  attempt 1 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== M46V_2: mdpocket exploration via lldb (ASLR off), attempt 2
+  attempt 2 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+== M46V_2: mdpocket exploration via lldb (ASLR off), attempt 3
+  attempt 3 failed (lldb rc=0, grid 0 bytes)
+    0x100009aa8 <+100>: str    x8, [sp, #0x70]
+    0x100009aac <+104>: ldr    x25, [x20, #0x28]
+Target 0: (mdpocket) stopped.
+WARN M46V_2: exploration still failed under lldb after 3 attempts

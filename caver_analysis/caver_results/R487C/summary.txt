@@ -1,0 +1,64 @@
+            ID: Identification of a given tunnel cluster = ranking of a given cluster 
+                based on the Priority.
+            No: Total number of tunnels belonging to a given cluster.
+      No_snaps: Nubmer of snapshots with at least one tunnel 
+                with a radius >= probe_radius (see config.txt).
+        Avg_BR: Average bottleneck radius [A].
+        Max_BR: Maximimum bottleneck radius [A].
+         Avg_L: Average tunnel length [A].
+         Avg_C: Average tunnel curvature.
+      Priority: Tunnel priority calculated by averaging tunnel
+                throughputs over all snapshots (zero value used for 
+                snapshots without tunnel).
+Avg_throughput: Average tunnel throughput.
+   Avg_up_E_BR: Average upper error bound of bottleneck radius estimation.
+   Avg_up_E_TR: Average upper error bound of tunnel profile radii estimation.
+   Max_up_E_BR: Maximal upper errors bound of bottleneck radii estimation.
+   Max_up_E_TR: Maximal upper error bound of tunnel radii estimation.
+            SD: Standard deviation [A].
+All averaged values are calculated over snapshots, where a given cluster has at least one tunnel. The only exception is the Priority, where the average is calculated over all snapshots.
+If there are more tunnels in one snapshot, the cheapest tunnel is chosen. 
+
+
+
+  ID      No   No_snaps   Avg_BR       SD   Max_BR    Avg_L      SD   Avg_C      SD    Priority  Avg_throughput       SD   Avg_up_E_BR      SD   Max_up_E_BR  Avg_up_E_TR   Max_up_E_TR
+   1      59         59    1.131    0.209     1.75   18.154   1.900   1.229   0.075     0.22317         0.45769  0.08008             -       -             -            -             -
+   2      42         42    1.105    0.126     1.35   24.628   2.427   1.532   0.116     0.12713         0.36625  0.06873             -       -             -            -             -
+   3      29         29    1.054    0.129     1.36   23.282   2.411   1.427   0.177     0.08338         0.34790  0.07134             -       -             -            -             -
+   4      33         33    1.020    0.109     1.31   29.002   2.849   1.726   0.230     0.07215         0.26457  0.06466             -       -             -            -             -
+   5      21         21    1.019    0.127     1.45   24.204   2.714   1.290   0.115     0.06195         0.35698  0.06849             -       -             -            -             -
+   6      22         22    1.031    0.110     1.30   28.109   2.424   1.443   0.073     0.05582         0.30701  0.06000             -       -             -            -             -
+   7      22         22    1.016    0.088     1.19   26.684   3.336   1.644   0.156     0.04896         0.26931  0.05935             -       -             -            -             -
+   8      17         17    0.956    0.046     1.05   34.777   4.616   1.833   0.281     0.02592         0.18452  0.04331             -       -             -            -             -
+   9      16         16    0.946    0.044     1.05   32.481   2.901   2.038   0.296     0.02258         0.17078  0.02881             -       -             -            -             -
+  10       9          9    0.954    0.039     1.03   24.554   4.238   1.467   0.274     0.02084         0.28020  0.06559             -       -             -            -             -
+  11       7          7    0.986    0.042     1.04   21.202   1.230   1.257   0.051     0.01856         0.32081  0.04565             -       -             -            -             -
+  12       5          5    0.955    0.032     1.00   21.722   1.745   1.292   0.036     0.01436         0.34743  0.02881             -       -             -            -             -
+  13       7          7    1.037    0.119     1.30   32.521   3.462   1.464   0.156     0.01243         0.21480  0.05092             -       -             -            -             -
+  14       4          4    1.027    0.123     1.23   23.599   2.746   1.342   0.067     0.01199         0.36264  0.05925             -       -             -            -             -
+  15       6          6    0.976    0.049     1.05   33.233   2.764   1.331   0.060     0.01035         0.20876  0.05478             -       -             -            -             -
+  16       2          2    1.071    0.037     1.11   27.877   1.039   1.662   0.050     0.00529         0.31992  0.01498             -       -             -            -             -
+  17       2          2    0.942    0.027     0.97   36.123   2.297   1.501   0.083     0.00282         0.17045  0.02761             -       -             -            -             -
+  18       1          1    0.909    0.000     0.91   20.969   0.000   1.557   0.000     0.00195         0.23550  0.00000             -       -             -            -             -
+  19       1          1    1.238    0.000     1.24   35.998   0.000   2.115   0.000     0.00188         0.22694  0.00000             -       -             -            -             -
+  20       1          1    0.927    0.000     0.93   42.274   0.000   1.444   0.000     0.00116         0.14064  0.00000             -       -             -            -             -
+  21       1          1    0.902    0.000     0.90   30.969   0.000   1.543   0.000     0.00115         0.13907  0.00000             -       -             -            -             -
+  22       1          1    0.936    0.000     0.94   40.093   0.000   1.573   0.000     0.00102         0.12396  0.00000             -       -             -            -             -
+  23       1          1    0.916    0.000     0.92   28.492   0.000   1.632   0.000     0.00100         0.12060  0.00000             -       -             -            -             -
+  24       1          1    0.907    0.000     0.91   41.071   0.000   1.801   0.000     0.00099         0.11927  0.00000             -       -             -            -             -
+  25       1          1    0.995    0.000     0.99   42.832   0.000   2.735   0.000     0.00090         0.10882  0.00000             -       -             -            -             -
+  26       1          1    0.969    0.000     0.97   39.160   0.000   1.751   0.000     0.00076         0.09222  0.00000             -       -             -            -             -
+  27       1          1    0.958    0.000     0.96   43.202   0.000   2.212   0.000     0.00072         0.08701  0.00000             -       -             -            -             -
+  28       1          1    0.910    0.000     0.91   52.459   0.000   1.693   0.000     0.00057         0.06889  0.00000             -       -             -            -             -
+
+
+
+-----------------------------------------------------------------------
+ Thank you for using CAVER, please cite:
+
+ Chovancova, E., Pavelka, A., Benes, P., Strnad, O., Brezovsky, J.,
+ Kozlikova, B., Gora, A., Sustr, V., Klvana, M., Medek, P.,
+ Biedermannova, L., Sochor, J. Damborsky, J. (2012) CAVER 3.0: A Tool
+ for the Analysis of Transport Pathways in Dynamic Protein Structures.
+ PLoS Comput Biol 8: e1002708. doi:10.1371/journal.pcbi.1002708
+-----------------------------------------------------------------------
